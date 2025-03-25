@@ -1,5 +1,6 @@
 import React from 'react';
 import { Project } from '../types';
+import { Card, CardContent, Typography } from '@mui/material';
 
 interface ProjectCardProps {
   project: Project;
@@ -7,14 +8,26 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+
+    <Card
+      sx={{ 
+        backgroundColor: 'white', 
+        borderRadius: 2, 
+        boxShadow: 3, 
+        overflow: 'hidden', 
+        transition: 'transform 0.3s', 
+        '&:hover': {
+          transform: 'scale(1.05)',
+        }
+      }}
+    >
       {/* <img 
         src={project.imageUrl} 
         alt={project.title} 
         className="w-full h-48 object-cover"
       /> */}
-      <div className="p-4">
-        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+      <CardContent>
+        <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold', mb: 2 }}>{project.title}</Typography>
         <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {project.technologies.map((tech) => (
@@ -48,8 +61,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </a>
           )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

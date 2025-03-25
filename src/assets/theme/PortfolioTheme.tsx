@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 
 const PortfolioTheme = createTheme({
   typography: {
-    fontFamily: '"Kanit", sans-serif', // Apply Kanit globally across your app
+    fontFamily: '"Kanit", sans-serif',
   },
   palette: {
     primary: {
@@ -13,7 +13,7 @@ const PortfolioTheme = createTheme({
       main: '#dc004e',
     },
     background: {
-      default: "#f0f0f0", // Set global background color
+      default: "#ffffff", // Set global background color
     },
     text: {
       primary: "#333333", // Set global text color

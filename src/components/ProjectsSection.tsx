@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // import { Project } from '../types';
 import ProjectCard from './ProjectCard';
 import { projects } from '../assets/data/projects';
+import { Box, Button, Card, CardContent, Container, Grid2, Typography } from '@mui/material';
 
 const ProjectsSection: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'featured'>('all');
@@ -14,49 +15,47 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <section id="projects" className="py-20">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">My Projects</h2>
+      <Container maxWidth="lg">
+        <Typography variant="h4" align="center" gutterBottom>My Projects</Typography>
         
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-md shadow-sm">
-            <button
+        <Box display="flex" justifyContent="center" mb={4}>
+        <Box display="inline-flex" borderRadius="8px" boxShadow={2}>
+            <Button
               onClick={() => setFilter('all')}
-              className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
-                filter === 'all' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
-              }`}
+              variant={filter === 'all' ? 'contained' : 'outlined'}
+              sx={{ borderRadius: '8px 0 0 8px', px: 4, py: 2, color: filter === 'all' ? 'primary' : 'default' }}
             >
               All Projects
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setFilter('featured')}
-              className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
-                filter === 'featured' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300'
-              }`}
+              variant={filter === 'featured' ? 'contained' : 'outlined'}
+              sx={{ borderRadius: '0 8px 8px 0', px: 4, py: 2, color: filter === 'featured' ? 'primary' : 'default'}}
             >
               Featured
-            </button>
-          </div>
-        </div>
+            </Button>
+          </Box>
+        </Box>
         
         {filteredProjects.length === 0 ? (
-          <div className="text-center py-10">
-            <h3 className="text-xl font-semibold mb-2">No projects yet</h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              I`&apos;`,m currently working on some exciting projects. Check back soon!
-            </p>
-          </div>
+          <Box textAlign="center" py={10}>
+            <Typography variant="h6" paragraph>
+              No projects yet
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              I'm currently working on some exciting projects. Check back soon!
+            </Typography>
+          </Box>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Grid2 container spacing={4}>
             {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <Grid2 size={{sm: 12, md:4, lg: 'grow'}} key={project.id}>
+                <ProjectCard key={project.id} project={project} />
+              </Grid2>
             ))}
-          </div>
+          </Grid2>
         )}
-      </div>
+      </Container>
     </section>
   );
 };

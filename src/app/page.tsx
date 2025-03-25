@@ -1,15 +1,27 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProjectsSection from "@/components/ProjectsSection";
+import { Box } from "@mui/material";
+import { Metadata } from "next";
 import Head from "next/head";
 // import Image from "next/image";
 
+export const metadata: Metadata = {
+  title: 'Rachel Ayaka Lin | Home',
+  description: 'Professional portfolio showcasing my projects and skills',
+}
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <Box
+        sx={{
+          minHeight: '100vh', // Mimicking min-h-screen
+          backgroundColor: 'background.default', // MUI dark mode handling
+          color: 'text.primary', // Text color based on MUI theme
+        }}
+      >
       <Head>
-        <title>Rachel&apos;s Portfolio</title>
-        <meta name="description" content="Professional portfolio showcasing my projects and skills" />
+        <title>Rachel's Portfolio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -20,6 +32,6 @@ export default function Home() {
         {/* <SkillsSection /> */}
       </main>
       {/* <Footer /> */}
-    </div>
+    </Box>
   );
 }
