@@ -1,7 +1,7 @@
-import Hero from "@/components/Hero";
-import ProjectsSection from "@/components/ProjectsSection";
-import Head from "next/head";
-import Image from "next/image";
+// import Hero from "@/components/Hero";
+// import ProjectsSection from "@/components/ProjectsSection";
+// import Head from "next/head";
+// import Image from "next/image";
 
 export default function Contact() {
   return (

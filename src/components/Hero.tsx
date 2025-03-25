@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 mb-8 md:mb-0">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
-            Hi, I'm <span className="text-pink-600">Rachel Ayaka Lin</span>
+            Hi, I `&apos;`m <span className="text-pink-600">Rachel Ayaka Lin</span>
           </h1>
           <h2 className="text-xl md:text-2xl mb-6 text-black">
             Full Stack Developer

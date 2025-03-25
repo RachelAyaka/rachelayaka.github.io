@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Project } from '../types';
+// import { Project } from '../types';
 import ProjectCard from './ProjectCard';
 import { projects } from '../assets/data/projects';
 
@@ -46,7 +46,7 @@ const ProjectsSection: React.FC = () => {
           <div className="text-center py-10">
             <h3 className="text-xl font-semibold mb-2">No projects yet</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              I'm currently working on some exciting projects. Check back soon!
+              I`&apos;`,m currently working on some exciting projects. Check back soon!
             </p>
           </div>
         ) : (
