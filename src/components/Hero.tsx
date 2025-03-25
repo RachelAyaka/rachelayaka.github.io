@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 const Hero: React.FC = () => {
   return (
@@ -40,13 +40,13 @@ const Hero: React.FC = () => {
         <div className="md:w-1/2 flex justify-center">
           <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl">
             {/* Replace with your own image */}
-            <Image 
+            {/* <Image 
               src="/images/profile.jpg"
               alt="Your Name"
               layout="fill"
               objectFit="cover"
               priority
-            />
+            /> */}
           </div>
         </div>
       </div>
