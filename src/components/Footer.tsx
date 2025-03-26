@@ -1,8 +1,7 @@
 'use client'
 import { JSX } from 'react'
-import Link from 'next/link'
 
-import { Box, Container, Divider, Grid2, Typography, useTheme } from '@mui/material'
+import { Box, Container, Grid2, Typography, useTheme } from '@mui/material'
 
 function Footer(): JSX.Element {
     const theme = useTheme()
@@ -10,52 +9,46 @@ function Footer(): JSX.Element {
     <Box
       component="footer"
       sx={{
-        backgroundColor: theme.palette.primary.main,
+        // backgroundColor: theme.palette.primary.main,
       }}
     >
       <Container maxWidth="lg">
-        <Box sx={{ margin: '4rem 0rem' }}>
+
+        <Box sx={{ margin: '2rem 0rem' }}>
           <Grid2 container>
             <Grid2 container direction="column" size={4}>
               <Typography
-                color="white"
                 sx={{ fontWeight: 'bold' }}
                 gutterBottom
               >
-                Resources
+                Contact Me
               </Typography>
               <Grid2>
-                <Link
-                  href={''}
-                  style={{
-                    textDecoration: 'none',
-                    display: 'inline-block',
-                  }}
-                >
                   <Typography
                     color="gray"
-                    sx={{ '&:hover': { color: 'white' } }}
+                    sx={{ '&:hover': { color: theme.palette.primary.dark } }}
                   >
-                    Explore LiDAR
+                    858-280-6217
                   </Typography>
-                </Link>
               </Grid2>
               <Grid2>
-                <Link
-                  href={''}
-                  style={{ textDecoration: 'none', display: 'inline-block' }}
-                >
                   <Typography
                     color="gray"
-                    sx={{ '&:hover': { color: 'white' } }}
+                    sx={{ '&:hover': { color: theme.palette.primary.dark } }}
                   >
-                    FAQ
+                    rachellin117@gmail.com
                   </Typography>
-                </Link>
+              </Grid2>
+              <Grid2>
+                  <Typography
+                    color="gray"
+                    sx={{ '&:hover': { color: theme.palette.primary.dark } }}
+                  >
+                    New York, New York
+                  </Typography>
               </Grid2>
             </Grid2>
           </Grid2>
-          <Divider color="gray" sx={{ margin: '2rem 0rem 1rem' }} />
         </Box>
       </Container>
     </Box>

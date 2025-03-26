@@ -15,15 +15,13 @@ export default function Home() {
   return (
     <Box>
       <Head>
-        <title>Rachel's Portfolio</title>
+        <title>Rachel&apos;s Portfolio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
-      <main>
-        <Hero />
-        <ProjectsSection />
-      </main>
+      <Hero />
+      <ProjectsSection /> 
       <Footer />
     </Box>
   );

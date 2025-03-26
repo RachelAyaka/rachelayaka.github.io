@@ -7,16 +7,16 @@ const PortfolioTheme = createTheme({
   },
   palette: {
     primary: {
-      main: '#1976d2',
+      main: '#F3D0D7', 
+      dark: '#D49C9F',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#FFEFEF',
     },
     background: {
-      default: "#ffffff", // Set global background color
-    },
-    text: {
-      primary: "#333333", // Set global text color
+      default: '#FAF5F0',
+      // default: '#FFF6EA',
+      paper: '#FFFFFF', // Crisp white for cards and sections
     },
   },
 });

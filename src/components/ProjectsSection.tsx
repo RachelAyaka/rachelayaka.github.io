@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 // import { Project } from '../types';
 import ProjectCard from './ProjectCard';
 import { projects } from '../assets/data/projects';
-import { Box, Button, Card, CardContent, Container, Grid2, Typography } from '@mui/material';
+import { Box, Button, Container, Grid2, Typography, useTheme } from '@mui/material';
 
 const ProjectsSection: React.FC = () => {
+  const theme = useTheme()
   const [filter, setFilter] = useState<'all' | 'featured'>('all');
   
-//   const filteredProjects: Project[] = []
   const filteredProjects = filter === 'all' 
     ? projects : []
     // : projects.filter(project => project.featured);
 
   return (
-    <section id="projects" className="py-20">
+    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '3rem 0' }}>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" gutterBottom>My Projects</Typography>
         
@@ -43,13 +43,13 @@ const ProjectsSection: React.FC = () => {
               No projects yet
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              I'm currently working on some exciting projects. Check back soon!
+              I&apos;m currently working on some exciting projects. Check back soon!
             </Typography>
           </Box>
         ) : (
           <Grid2 container spacing={4}>
             {filteredProjects.map((project) => (
-              <Grid2 size={{sm: 12, md:4, lg: 'grow'}} key={project.id}>
+              <Grid2 size={{sm: 12, md:4}} key={project.id}>
                 <ProjectCard key={project.id} project={project} />
               </Grid2>
             ))}
