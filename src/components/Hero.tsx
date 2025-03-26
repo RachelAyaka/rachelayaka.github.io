@@ -1,45 +1,62 @@
+import { Avatar, Box, Button, Grid2, Typography } from '@mui/material';
 import React from 'react';
 // import Image from 'next/image';
 
 const Hero: React.FC = () => {
   return (
-    <section className="py-20 bg-gradient-to-r from-pink-300 to-turquois-700 text-white">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
-        <div className="md:w-1/2 mb-8 md:mb-0">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-black">
-            Hi, I `&apos;`m <span className="text-pink-600">Rachel Ayaka Lin</span>
-          </h1>
-          <h2 className="text-xl md:text-2xl mb-6 text-black">
+    <Box
+      sx={{
+        py: 20, 
+        background: 'linear-gradient(to right, #F9A8D4, #ffffff)', 
+        color: 'white',
+      }}
+    >
+      <Grid2 container spacing={4} sx={{ alignItems: 'center' }}>
+        <Grid2 size={{sm: 12, md:6, lg: 'grow'}} >
+          <Typography variant="h5" sx={{ color: 'black', mb: 6 }}>
             Full Stack Developer
-          </h2>
-          <p className="text-lg mb-8 max-w-md text-black">
+          </Typography>
+          <Typography variant="body1" sx={{ maxWidth: 400, color: 'black', mb: 8 }}>
             I build modern, responsive web applications using cutting-edge technologies.
-          </p>
-          <div className="flex space-x-4">
-            <a 
-              href="#projects" 
-              className="px-6 py-3 bg-pink-400 hover:bg-pink-600 rounded-lg font-medium transition-colors"
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant="contained" 
+              color="primary" 
+              sx={{ px: 6, py: 3, fontWeight: 'medium' }}
+              href="#projects"
             >
               Projects
-            </a>
-            <a 
-              href="#projects" 
-              className="px-6 py-3 bg-pink-400 hover:bg-pink-600 rounded-lg font-medium transition-colors"
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              sx={{ px: 6, py: 3, fontWeight: 'medium' }}
+              href="#projects"
             >
               Resume
-            </a>
-            {/* <a 
-              href="contact" 
-              // className="px-6 py-3 bg-transparent border-2 border-white hover:bg-white hover:text-blue-700 rounded-lg font-medium transition-colors"
-            className="px-6 py-3 bg-pink-300 border-2 border-white hover:bg-white hover:text-blue-700 rounded-lg font-medium transition-colors"
+            </Button>
+            {/* <Button 
+              variant="outlined" 
+              color="secondary" 
+              sx={{ px: 6, py: 3, fontWeight: 'medium' }}
             >
               On my free time
-            </a> */}
-          </div>
-        </div>
-        <div className="md:w-1/2 flex justify-center">
-          <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl">
-            {/* Replace with your own image */}
+            </Button> */}
+          </Box>
+        </Grid2>
+        <Grid2 size={{sm: 12, md:6, lg: 'grow'}}  sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Box 
+            sx={{
+              position: 'relative', 
+              width: 200, 
+              height: 200, 
+              borderRadius: '50%', 
+              overflow: 'hidden', 
+              border: '4px solid white', 
+              boxShadow: 3
+            }}
+          >
             {/* <Image 
               src="/images/profile.jpg"
               alt="Your Name"
@@ -47,10 +64,15 @@ const Hero: React.FC = () => {
               objectFit="cover"
               priority
             /> */}
-          </div>
-        </div>
-      </div>
-    </section>
+            {/* <Avatar
+              alt="Rachel Ayaka Lin"
+              src="../../images/next.svg" 
+              sx={{ width: '100%', height: '100%' }}
+            /> */}
+          </Box>
+        </Grid2>
+      </Grid2>
+    </Box>
   );
 };
 

@@ -1,62 +1,58 @@
-import { JSX, Suspense } from 'react'
-import Link from 'next/link'
+'use client'
+import * as React from 'react';
+import { alpha, styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import { Typography } from '@mui/material';
 
-import { ShoppingCart } from '@mui/icons-material'
-import {
-  AppBar,
-  Box,
-  CircularProgress,
-  Container,
-  Toolbar,
-} from '@mui/material'
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  flexShrink: 0,
+  backdropFilter: 'blur(24px)',
+  padding: '8px 12px',
+}));
 
-// import UserHeaderButton from './UserHeaderButton'
-// import AppNavIconButton from './AppNavIconButton'
+export default function Header() {
 
-async function Header(): Promise<JSX.Element> {
   return (
-    <>
-      <AppBar>
-        <Toolbar disableGutters>
-          <Container
-            maxWidth={false}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Link href='home'>
-              Home
-            </Link>
-            <Box component="nav" sx={{ display: 'flex', gap: '1rem' }}>
-              {/* <AppNavIconButton
-                icon={<ShoppingCart />}
-                path={Paths.CART}
-                label="Cart"
-              /> */}
-              <Suspense
-                fallback={
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '8rem',
-                    }}
-                  >
-                    <CircularProgress color="secondary" size="2rem" />
-                  </Box>
-                }
-              >
-                {/* <UserHeaderButton /> */}
-              </Suspense>
+    <AppBar
+      position="fixed"
+      enableColorOnDark
+      sx={{
+        boxShadow: 0,
+        bgcolor: '#F9A8D4',
+        backgroundImage: 'none',
+        width: '100%',
+        padding: '1rem'
+      }}
+    >
+      <Container maxWidth="xl" sx={{ padding: 0 }}>
+        <StyledToolbar variant="dense" disableGutters sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h3" sx={{ fontWeight: 'bold', color: 'black'}}>
+                Rachel Ayaka Lin
+            </Typography>
+
+            <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
+              <Button variant="text" color="info">
+                Home
+              </Button>
+              <Button variant="text" color="info">
+                Resume
+              </Button>
+              <Button variant="text" color="info">
+                Projects
+              </Button>
+              <Button variant="text" color="info" sx={{ minWidth: 0 }}>
+                About
+              </Button>
             </Box>
-          </Container>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
-    </>
-  )
+        </StyledToolbar>
+      </Container>
+    </AppBar>
+  );
 }
-export default Header

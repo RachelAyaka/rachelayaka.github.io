@@ -1,6 +1,6 @@
 import React from 'react';
 import { Project } from '../types';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, Link, Typography } from '@mui/material';
 
 interface ProjectCardProps {
   project: Project;
@@ -28,39 +28,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       /> */}
       <CardContent>
         <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold', mb: 2 }}>{project.title}</Typography>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{project.description}</Typography>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
           {project.technologies.map((tech) => (
-            <span 
+            <Chip
               key={tech} 
-              className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm"
-            >
-              {tech}
-            </span>
+              label={tech} size="small" sx={{ backgroundColor: 'gray.200', color: 'text.primary' }} />
           ))}
-        </div>
-        <div className="flex justify-between">
+        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {project.demoUrl && (
-            <a 
+            <Link
               href={project.demoUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              sx={{ color: 'primary.main', '&:hover': { textDecoration: 'underline' } }}
             >
               Live Demo
-            </a>
+            </Link>
           )}
           {project.githubUrl && (
-            <a 
+            <Link 
               href={project.githubUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-300 hover:underline"
+              sx={{ color: 'text.secondary', '&:hover': { textDecoration: 'underline' } }}
             >
               GitHub
-            </a>
+            </Link>
           )}
-        </div>
+        </Box>
       </CardContent>
     </Card>
   );

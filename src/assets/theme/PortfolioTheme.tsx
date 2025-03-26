@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 
 const PortfolioTheme = createTheme({
   typography: {
-    fontFamily: '"Kanit", sans-serif',
+    fontFamily: "'Georgia', serif",
   },
   palette: {
     primary: {
