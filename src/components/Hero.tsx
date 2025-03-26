@@ -7,8 +7,8 @@ const Hero: React.FC = () => {
       display: 'flex',              // Use flexbox layout
       justifyContent: 'center',     // Center horizontally
       alignItems: 'center',         // Center vertically 
-      paddingBottom: '7rem',
-      paddingTop: '7rem'
+      paddingBottom: '8rem',
+      paddingTop: '8rem'
     }}>
       <Grid2 container spacing={9} alignItems="center">
         <Grid2 size={{sm: 12, md: 6, lg: 'grow'}}>
