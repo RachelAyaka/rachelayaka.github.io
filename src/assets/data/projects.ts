@@ -2,7 +2,7 @@ import { Project } from '../../types';
 
 export const projects: Project[] = [
   {
-    id: 'project-1',
+    id: 1,
     title: 'E-commerce Platform',
     description: 'A full-stack e-commerce platform with user authentication, product management, and payment processing.',
     technologies: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Stripe'],
@@ -12,7 +12,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 'project-2',
+    id: 2,
     title: 'E-commerce Platform',
     description: 'A full-stack e-commerce platform with user authentication, product management, and payment processing.',
     technologies: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Stripe'],
@@ -22,7 +22,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 'project-3',
+    id: 3,
     title: 'E-commerce Platform',
     description: 'A full-stack e-commerce platform with user authentication, product management, and payment processing.',
     technologies: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Stripe'],
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: 'project-4',
+    id: 4,
     title: 'E-commerce Platform',
     description: 'A full-stack e-commerce platform with user authentication, product management, and payment processing.',
     technologies: ['React', 'TypeScript', 'Node.js', 'MongoDB', 'Stripe'],
