@@ -18,7 +18,7 @@ export default function Header() {
         <Button color="inherit" href={'/Resume'} sx={{ fontSize: '18px', 
           '&:hover': {backgroundColor: theme.palette.primary.main}}}>Resume</Button>
         <Button color="inherit" href={'/Projects'} sx={{ fontSize: '18px', 
-          '&:hover': {backgroundColor: theme.palette.primary.main}}}>Project</Button>
+          '&:hover': {backgroundColor: theme.palette.primary.main}}}>Projects</Button>
         <Button color="inherit" href={'/AboutMe'} sx={{ fontSize: '18px', 
           '&:hover': {backgroundColor: theme.palette.primary.main}}}>About Me</Button>
       </Toolbar>

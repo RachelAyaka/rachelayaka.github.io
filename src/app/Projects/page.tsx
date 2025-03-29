@@ -1,34 +1,13 @@
-import Header from "@/components/Header";
-import { Card, CardContent, Grid2, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material"
+import ProjectsSection from "@/components/ProjectsSection"
 
 export default function Projects() {
   return (
     <>
-      <Header/>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <Grid2 size={{sm: 12, md:5, lg: 'grow'}}>
-            <Card elevation={0}>
-              <CardContent>
-                <Typography
-                  variant="h5" 
-                  color="primary"
-                  style={{ 
-                    fontWeight: 500,
-                    marginBottom: '1rem'
-                  }}
-                >
-                  Core Principles
-                </Typography>
-                <Typography variant="body2">
-                  • Minimalist Design
-                  • Warm Neutral Palette
-                  • Intentional Simplicity
-                  • Timeless Aesthetics
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid2>
-      </div>
+      <Box>
+        <Typography variant="h3">''</Typography>
+      </Box>
+      <ProjectsSection/>
     </>
   );
 }

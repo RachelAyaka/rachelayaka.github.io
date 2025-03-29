@@ -1,15 +1,16 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, JSX, useState } from 'react';
 
 import { Project } from '../types';
 import { Box, Button, Card, CardContent, Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography, useTheme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 interface ProjectCardProps {
-  project: Project;
+  project: Project
+  pathname: string
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+function ProjectCard({ project, pathname }: ProjectCardProps): JSX.Element {
   const theme = useTheme()
   const [openDialog, setOpenDialog] = useState(false)
   const [editedProject, setEditedProject] = useState(project)
@@ -62,20 +63,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           alt={project.title} 
           className="w-full h-48 object-cover"
         /> */}
-
-        <IconButton sx={{
-            position: 'absolute', 
-            top: 8, 
-            right: 8, 
-            backgroundColor: 'white', 
-            zIndex: 10,
-            '&:hover': { backgroundColor: 'gray.100' } 
-          }}
-          onClick={handleEditClick}
-          size="small"
-        >
-          <EditIcon sx={{ fontSize: 20 }}/>
-        </IconButton>
+        {pathname === '/Projects' ? 
+          <IconButton sx={{
+              position: 'absolute', 
+              top: 8, 
+              right: 8, 
+              backgroundColor: 'white', 
+              zIndex: 10,
+              '&:hover': { backgroundColor: 'gray.100' } 
+            }}
+            onClick={handleEditClick}
+            size="small"
+          >
+            <EditIcon sx={{ fontSize: 20 }}/>
+          </IconButton>
+        : null}
         <CardContent>
           <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold', mb: 2 }}>{project.title}</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{project.description}</Typography>

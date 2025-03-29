@@ -1,69 +1,70 @@
 'use client'
-import {useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import {JSX, useEffect, useState } from 'react'
 
 import { Box, Button, CircularProgress, Container, Grid2, IconButton, Typography, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add'
 
+import useAddProjectDialog from '@/hooks/useAddProjectDialog';
 import getProjects from '@/services/getProjects';
 import { Project } from '@/types';
 
-import ProjectCard from './ProjectCard';
 import AddProjectDialog from './AddProjectDialog';
 import DialogContainer from './DialogContainer';
-import useCreateProjectDialog from '@/hooks/useCreateProjectDialog';
+import ProjectCard from './ProjectCard';
 
-const ProjectsSection: React.FC = () => {
+function ProjectsSection(): JSX.Element {
   const theme = useTheme()
   const [filter, setFilter] = useState<'all' | 'featured'>('all')
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const {
-    alertMessage,
-    addProjectSuccessful,
-    addProjectFailure,
-    open,
-    title,
-    description,
-    technologies,
-    imageUrl,
-    demoUrl,
-    githubUrl,
-    featured,
-    titleStatus,
-    descriptionStatus,
-    technologiesStatus,
-    imageUrlStatus,
-    demoUrlStatus,
-    githubUrlStatus,
-    featuredStatus,
-    handleTitleFieldChange,
-    handleDescriptionFieldChange,
-    handleTechnologiesFieldChange,
-    handleImageUrlFieldChange,
-    handleDemoUrlFieldChange,
-    handleGithubUrlFieldChange,
-    handleFeaturedFieldChange,
-    handleClickCreateProject,
-    handleOpenDialog,
-    handleCancelCloseDialog,
-    handleCloseDialog,
-    setAddProjectSuccessful,
-    setAddProjectFailure,
-    setTitle,
-    setDescription,
-    setTechnologies,
-    setImageUrl,
-    setDemoUrl,
-    setGithubUrl,
-    setFeatured,
-    titleHasError,
-    descriptionHasError,
-    technologiesHasError,
-    imageUrlHasError,
-    demoUrlHasError,
-    githubUrlHasError,
-    featuredHasError,
-  } = useCreateProjectDialog()
+        alertMessage,
+        addProjectSuccessful,
+        addProjectFailure,
+        open,
+        title,
+        description,
+        technologies,
+        imageUrl,
+        demoUrl,
+        githubUrl,
+        featured,
+        titleStatus,
+        descriptionStatus,
+        technologiesStatus,
+        imageUrlStatus,
+        demoUrlStatus,
+        githubUrlStatus,
+        featuredStatus,
+        handleTitleFieldChange,
+        handleDescriptionFieldChange,
+        handleTechnologiesFieldChange,
+        handleImageUrlFieldChange,
+        handleDemoUrlFieldChange,
+        handleGithubUrlFieldChange,
+        handleFeaturedFieldChange,
+        handleClickCreateProject,
+        handleOpenDialog,
+        handleCancelCloseDialog,
+        handleCloseDialog,
+        setAddProjectSuccessful,
+        setAddProjectFailure,
+        setTitle,
+        setDescription,
+        setTechnologies,
+        setImageUrl,
+        setDemoUrl,
+        setGithubUrl,
+        setFeatured,
+        titleHasError,
+        descriptionHasError,
+        technologiesHasError,
+        imageUrlHasError,
+        demoUrlHasError,
+        githubUrlHasError,
+        featuredHasError,
+      } = useAddProjectDialog()
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -81,9 +82,12 @@ const ProjectsSection: React.FC = () => {
 
     loadProjects();
   }, [filter]);
+
+  const pathname = usePathname()
+  console.log('what is the path?: ', pathname)
   
   return (
-    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '3rem 0' }}>
+    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '5rem 0' }}>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" gutterBottom>My Projects</Typography>
         
@@ -107,16 +111,6 @@ const ProjectsSection: React.FC = () => {
         </Box>
 
         <Box sx={{ textAlign: 'center', py: 10 }}>
-          <IconButton 
-            sx={{
-              align: 'right', 
-              '&:hover': { backgroundColor: 'gray.100' } 
-            }}
-            onClick={handleOpenDialog}
-          >
-            <AddIcon/>
-            <Typography>Add new project here</Typography>
-          </IconButton>
           {loading ? (
             <Box>
               <CircularProgress size={48} sx={{ color: 'primary.main' }} />
@@ -133,7 +127,7 @@ const ProjectsSection: React.FC = () => {
             <Grid2 container spacing={4}>
               {projects.map((project) => (
                 <Grid2 size={{xs:12, md:6, lg:4}} key={project.id}>
-                  <ProjectCard key ={project.id} project={project} />
+                  <ProjectCard key ={project.id} project={project} pathname={pathname}/>
                 </Grid2>
               ))}
             </Grid2>
@@ -187,7 +181,20 @@ const ProjectsSection: React.FC = () => {
           featuredHasError ={featuredHasError}/>
         </Box>
       </DialogContainer>
-      
+      {pathname==='/Projects' ?
+        <Box sx={{ textAlign: 'right', py: 10 }}>
+          <IconButton
+            sx={{
+              align: 'right', 
+              '&:hover': { backgroundColor: 'gray.100' } 
+            }}
+            onClick={handleOpenDialog}
+          >
+            <AddIcon/>
+            <Typography>Add new project to display</Typography>
+          </IconButton>
+        </Box>
+      : null}
     </section>
   );
 };
