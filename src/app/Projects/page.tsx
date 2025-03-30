@@ -5,7 +5,7 @@ export default function Projects() {
   return (
     <>
       <Box>
-        <Typography variant="h3">''</Typography>
+        <Typography variant="h3">--</Typography>
       </Box>
       <ProjectsSection/>
       <Box

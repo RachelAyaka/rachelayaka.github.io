@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, JSX, SetStateAction, useState } from "react"
-import { Button, Chip, DialogActions, DialogContent, DialogTitle, InputAdornment, MenuItem,  Snackbar,  Stack, TextField, useTheme } from "@mui/material";
+import { Button, Chip, DialogActions, DialogContent, DialogTitle, InputAdornment, MenuItem, Stack, TextField, useTheme } from "@mui/material";
 
 import { FieldStatus } from "@/types"
 import { Project } from "@/types"
@@ -105,26 +105,6 @@ function AddProjectDialog({
     }
     return (
         <>
-            {/* <Snackbar open={addProjectSuccessful} 
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                autoHideDuration={5000}
-                onClose={() => {
-                    setAddProjectSuccessful(false)
-                }}
-                sx={{mt:'3.5rem'}}
-            >
-                <Alert severity="error">Successfully added a project.</Alert>
-            </Snackbar>
-            <Snackbar open={addProjectFailure} 
-                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                autoHideDuration={5000}
-                onClose={() => {
-                    setAddProjectFailure(false)
-                }}
-                sx={{mt:'3.5rem'}}
-            >
-                <Alert severity="error">{alertMessage} Please try again.</Alert>
-            </Snackbar> */}
             <form onSubmit={async (event) => {
                 event.preventDefault()
                 await handleClickCreateProject()

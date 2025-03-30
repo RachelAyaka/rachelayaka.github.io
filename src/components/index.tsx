@@ -7,4 +7,16 @@ import ProjectCard from "./ProjectCard"
 import ProjectDialog from "./ProjectDialog"
 import ProjectsSection from "./ProjectsSection"
 
-export default {AddProjectDialog, DialogContainer, Footer, Header, Hero, ProjectCard, ProjectDialog, ProjectsSection}
+const components = {
+    AddProjectDialog,
+    DialogContainer,
+    Footer,
+    Header,
+    Hero,
+    ProjectCard,
+    ProjectDialog,
+    ProjectsSection,
+  }
+  
+  export default components
+  

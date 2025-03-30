@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, JSX, SetStateAction, useState } from "react"
-import { Button, Chip, DialogActions, DialogContent, DialogTitle, InputAdornment, MenuItem,  Snackbar,  Stack, TextField, useTheme } from "@mui/material";
+import { Button, Chip, DialogActions, DialogContent, DialogTitle, InputAdornment, MenuItem, Stack, TextField, useTheme } from "@mui/material";
 
 import { FieldStatus } from "@/types"
 import { Project } from "@/types"
@@ -84,7 +84,6 @@ function ProjectDialog({
     const [inputValue, setInputValue] = useState<string>('')
     const [isFocused, setIsFocused] = useState(false)
 
-    const [curId, setCurId] = useState(project.id)
     const [curTitle, setCurTitle] = useState(project.title)
     const [curDescription, setCurDescription] = useState(project.description)
     const [curTechnologies, setCurTechnologies] = useState<string[]>(project.technologies)
@@ -275,7 +274,7 @@ function ProjectDialog({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} sx={{color: theme.palette.primary.dark}}>Cancel</Button>
-                    <Button onClick={() => handleClickDeleteProject(curId)} variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Delete</Button>
+                    <Button onClick={() => handleClickDeleteProject(project.id)} variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Delete</Button>
                     <Button onClick={() => handleEditClick(project)} variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Edit</Button>
                     
                 </DialogActions>

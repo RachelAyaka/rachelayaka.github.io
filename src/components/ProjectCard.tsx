@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, Dispatch, JSX, SetStateAction, useState } from 'react';
+import React, { Dispatch, JSX, SetStateAction, useState } from 'react';
 
 import { Box, Card, CardContent, Chip, Dialog, IconButton, Link, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -78,8 +78,6 @@ function ProjectCard({ project, pathname,
     handleOpenEditDialog,
     handleCloseDialog,
     handleCancelCloseDialog,
-    setAddProjectSuccessful,
-    setAddProjectFailure,
     setTitle,
     setDescription,
     setTechnologies,
