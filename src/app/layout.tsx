@@ -4,6 +4,8 @@ import {AppRouterCacheProvider} from '@mui/material-nextjs/v15-appRouter'
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import PortfolioTheme from '@/assets/theme/PortfolioTheme';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Rachel Ayaka Lin Portfolio",
@@ -21,7 +23,9 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={PortfolioTheme}>
             <CssBaseline/>
+            <Header/>
             {children}
+            <Footer/>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

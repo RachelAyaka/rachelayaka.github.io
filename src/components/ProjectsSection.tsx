@@ -1,31 +1,124 @@
 'use client'
-import React, { useState } from 'react';
-// import { Project } from '../types';
+import { usePathname } from 'next/navigation';
+import {JSX, useEffect, useState } from 'react'
+
+import { Alert, Box, CircularProgress, Container, Grid2, IconButton, Snackbar, Typography, useTheme } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add'
+
+import useProjectDialog from '@/hooks';
+import getProjects from '@/services/getProjects';
+import { type Project } from '@/types';
+
+import DialogContainer from './DialogContainer';
 import ProjectCard from './ProjectCard';
-import { projects } from '../assets/data/projects';
-import { Box, Button, Container, Grid2, Typography, useTheme } from '@mui/material';
+import AddProjectDialog from './AddProjectDialog';
 
-const ProjectsSection: React.FC = () => {
+function ProjectsSection(): JSX.Element {
   const theme = useTheme()
-  const [filter, setFilter] = useState<'all' | 'featured'>('all');
-  
-  const filteredProjects = filter === 'all' 
-    ? projects : []
-    // : projects.filter(project => project.featured);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const {
+        alertMessage,
+        addProjectSuccessful,
+        addProjectFailure,
+        openAddDialog,
+        openEditDialog,
+        title,
+        description,
+        technologies,
+        imageUrl,
+        demoUrl,
+        githubUrl,
+        featured,
+        titleStatus,
+        descriptionStatus,
+        technologiesStatus,
+        imageUrlStatus,
+        demoUrlStatus,
+        githubUrlStatus,
+        featuredStatus,
+        handleTitleFieldChange,
+        handleDescriptionFieldChange,
+        handleTechnologiesFieldChange,
+        handleImageUrlFieldChange,
+        handleDemoUrlFieldChange,
+        handleGithubUrlFieldChange,
+        handleFeaturedFieldChange,
+        handleClickCreateProject,
+        handleClickEditProject,
+        handleClickDeleteProject,
+        handleOpenAddDialog,
+        handleOpenEditDialog,
+        handleCancelCloseDialog,
+        handleCloseDialog,
+        setAddProjectSuccessful,
+        setAddProjectFailure,
+        setTitle,
+        setDescription,
+        setTechnologies,
+        setImageUrl,
+        setDemoUrl,
+        setGithubUrl,
+        setFeatured,
+        titleHasError,
+        descriptionHasError,
+        technologiesHasError,
+        imageUrlHasError,
+        demoUrlHasError,
+        githubUrlHasError,
+        featuredHasError,
+      } = useProjectDialog()
+  const pathname = usePathname()
 
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const projectsData = await getProjects();
+        setProjects(projectsData);
+      } catch (error) {
+        console.error('Failed to load projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
+
+  
   return (
-    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '3rem 0' }}>
+    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '5rem 0' }}>
+      <Snackbar open={addProjectSuccessful} 
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          autoHideDuration={5000}
+          onClose={() => {
+              setAddProjectSuccessful(false)
+          }}
+          sx={{mt:'3.5rem'}}
+      >
+          <Alert severity="success">Successfully added a project.</Alert>
+      </Snackbar>
+      <Snackbar open={addProjectFailure} 
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          autoHideDuration={5000}
+          onClose={() => {
+              setAddProjectFailure(false)
+          }}
+          sx={{mt:'3.5rem'}}
+      >
+          <Alert severity="error">{alertMessage} Please try again.</Alert>
+      </Snackbar>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" gutterBottom>My Projects</Typography>
-        
-        <Box display="flex" justifyContent="center" mb={4}>
-        <Box display="inline-flex" borderRadius="8px" boxShadow={2}>
+        {/* <Box display="flex" justifyContent="center" mb={4}>
+          <Box display="inline-flex" borderRadius="8px" boxShadow={2}>
             <Button
               onClick={() => setFilter('all')}
               variant={filter === 'all' ? 'contained' : 'outlined'}
               sx={{ borderRadius: '8px 0 0 8px', px: 4, py: 2, color: filter === 'all' ? 'primary' : 'default' }}
             >
-              All Projects
+              Programming Projects
             </Button>
             <Button
               onClick={() => setFilter('featured')}
@@ -35,27 +128,135 @@ const ProjectsSection: React.FC = () => {
               Featured
             </Button>
           </Box>
+        </Box> */}
+
+        <Box sx={{ textAlign: 'center', py: 10 }}>
+          {loading ? (
+            <Box>
+              <CircularProgress size={48} sx={{ color: 'primary.main' }} />
+              <Typography variant="h6" sx={{ mt: 2 }}>Loading projects...</Typography>
+            </Box>
+          ) : projects.length === 0 ? (
+            <Box>
+              <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>No projects yet</Typography>
+              <Typography variant="body2" color="text.secondary">
+                I&apos;m currently working on some exciting projects. Check back soon!!!
+              </Typography>
+            </Box>
+          ) : (
+            <Grid2 container spacing={4}>
+              {projects.map((project) => (
+                <Grid2 size={{xs:12, md:6, lg:4}} key={project.id}>
+                  <ProjectCard key={project.id} project={project} pathname={pathname}
+                    alertMessage = {alertMessage}
+                    addProjectSuccessful = {addProjectSuccessful}
+                    addProjectFailure = {addProjectFailure}
+                    openEditDialog={openEditDialog}
+                    titleStatus = {titleStatus}
+                    descriptionStatus = {descriptionStatus}
+                    technologiesStatus = {technologiesStatus}
+                    imageUrlStatus = {imageUrlStatus}
+                    demoUrlStatus = {demoUrlStatus}
+                    githubUrlStatus = {githubUrlStatus}
+                    featuredStatus = {featuredStatus}
+                    handleTitleFieldChange = {handleTitleFieldChange}
+                    handleDescriptionFieldChange = {handleDescriptionFieldChange}
+                    handleTechnologiesFieldChange = {handleTechnologiesFieldChange}
+                    handleImageUrlFieldChange = {handleImageUrlFieldChange}
+                    handleDemoUrlFieldChange = {handleDemoUrlFieldChange}
+                    handleGithubUrlFieldChange = {handleGithubUrlFieldChange}
+                    handleFeaturedFieldChange = {handleFeaturedFieldChange}
+                    handleClickCreateProject = {handleClickCreateProject}
+                    handleClickEditProject={handleClickEditProject}
+                    handleClickDeleteProject={handleClickDeleteProject}
+                    handleOpenEditDialog = {handleOpenEditDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    handleCancelCloseDialog = {handleCancelCloseDialog}
+                    setAddProjectSuccessful = {setAddProjectSuccessful}
+                    setAddProjectFailure = {setAddProjectFailure}
+                    setTitle = {setTitle}
+                    setDescription = {setDescription}
+                    setTechnologies = {setTechnologies}
+                    setImageUrl = {setImageUrl}
+                    setDemoUrl = {setDemoUrl}
+                    setGithubUrl= {setGithubUrl}
+                    setFeatured = {setFeatured}
+                    titleHasError = {titleHasError}
+                    descriptionHasError = {descriptionHasError}
+                    technologiesHasError ={technologiesHasError}
+                    imageUrlHasError= {imageUrlHasError}
+                    demoUrlHasError = {demoUrlHasError}
+                    githubUrlHasError ={githubUrlHasError}
+                    featuredHasError ={featuredHasError}
+                  />
+                </Grid2>
+              ))}
+            </Grid2>
+          )}
         </Box>
-        
-        {filteredProjects.length === 0 ? (
-          <Box textAlign="center" py={10}>
-            <Typography variant="h6" paragraph>
-              No projects yet
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              I&apos;m currently working on some exciting projects. Check back soon!
-            </Typography>
-          </Box>
-        ) : (
-          <Grid2 container spacing={4}>
-            {filteredProjects.map((project) => (
-              <Grid2 size={{sm: 12, md:4}} key={project.id}>
-                <ProjectCard key={project.id} project={project} />
-              </Grid2>
-            ))}
-          </Grid2>
-        )}
       </Container>
+      <DialogContainer open={openAddDialog} onClose={handleCancelCloseDialog}>
+        <Box>
+          <AddProjectDialog
+          project={{id:0, title:'', description:'', technologies:[], featured:false}}
+          alertMessage = {alertMessage}
+          addProjectSuccessful = {addProjectSuccessful}
+          addProjectFailure = {addProjectFailure}
+          title = {title}
+          description = {description}
+          technologies = {technologies}
+          imageUrl = {imageUrl}
+          demoUrl = {demoUrl}
+          githubUrl = {githubUrl}
+          featured = {featured}
+          titleStatus = {titleStatus}
+          descriptionStatus = {descriptionStatus}
+          technologiesStatus = {technologiesStatus}
+          imageUrlStatus = {imageUrlStatus}
+          demoUrlStatus = {demoUrlStatus}
+          githubUrlStatus = {githubUrlStatus}
+          featuredStatus = {featuredStatus}
+          handleTitleFieldChange = {handleTitleFieldChange}
+          handleDescriptionFieldChange = {handleDescriptionFieldChange}
+          handleTechnologiesFieldChange = {handleTechnologiesFieldChange}
+          handleImageUrlFieldChange = {handleImageUrlFieldChange}
+          handleDemoUrlFieldChange = {handleDemoUrlFieldChange}
+          handleGithubUrlFieldChange = {handleGithubUrlFieldChange}
+          handleFeaturedFieldChange = {handleFeaturedFieldChange}
+          handleClickCreateProject = {handleClickCreateProject}
+          handleCloseDialog={handleCloseDialog}
+          // setAddProjectSuccessful = {setAddProjectSuccessful}
+          // setAddProjectFailure = {setAddProjectFailure}
+          setTitle = {setTitle}
+          setDescription = {setDescription}
+          setTechnologies = {setTechnologies}
+          setImageUrl = {setImageUrl}
+          setDemoUrl = {setDemoUrl}
+          setGithubUrl= {setGithubUrl}
+          setFeatured = {setFeatured}
+          titleHasError = {titleHasError}
+          descriptionHasError = {descriptionHasError}
+          technologiesHasError ={technologiesHasError}
+          imageUrlHasError= {imageUrlHasError}
+          demoUrlHasError = {demoUrlHasError}
+          githubUrlHasError ={githubUrlHasError}
+          featuredHasError ={featuredHasError}/>
+        </Box>
+      </DialogContainer>
+      {pathname==='/Projects' ?
+        <Box sx={{ textAlign: 'right', py: 10 }}>
+          <IconButton
+            sx={{
+              align: 'right', 
+              '&:hover': { backgroundColor: 'gray.100' } 
+            }}
+            onClick={handleOpenAddDialog}
+          >
+            <AddIcon/>
+            <Typography>Add new project to display</Typography>
+          </IconButton>
+        </Box>
+      : null}
     </section>
   );
 };

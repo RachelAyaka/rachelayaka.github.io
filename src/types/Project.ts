@@ -1,9 +1,9 @@
 export interface Project {
-    id: string;
+    id: number;
     title: string;
     description: string;
     technologies: string[];
-    imageUrl: string;
+    imageUrl?: string;
     demoUrl?: string;
     githubUrl?: string;
     featured: boolean;

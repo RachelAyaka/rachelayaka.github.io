@@ -1,6 +1,6 @@
 {
   "name": "my-portfolio",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,7 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^6.4.8",
+    "@mui/icons-material": "^6.4.9",
     "@mui/material": "^6.4.8",
     "@mui/material-nextjs": "^6.4.3",
     "next": "15.2.3",
