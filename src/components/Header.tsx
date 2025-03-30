@@ -15,12 +15,13 @@ export default function Header() {
         </Typography>
         <Button color="inherit" href={'/'} sx={{ fontSize: '18px', 
           '&:hover': {backgroundColor: theme.palette.primary.main}}}>Home</Button>
+        <Button color="inherit" href={'/AboutMe'} sx={{ fontSize: '18px', 
+          '&:hover': {backgroundColor: theme.palette.primary.main}}}>About</Button>
         <Button color="inherit" href={'/Resume'} sx={{ fontSize: '18px', 
           '&:hover': {backgroundColor: theme.palette.primary.main}}}>Resume</Button>
         <Button color="inherit" href={'/Projects'} sx={{ fontSize: '18px', 
           '&:hover': {backgroundColor: theme.palette.primary.main}}}>Projects</Button>
-        <Button color="inherit" href={'/AboutMe'} sx={{ fontSize: '18px', 
-          '&:hover': {backgroundColor: theme.palette.primary.main}}}>About Me</Button>
+        
       </Toolbar>
     </AppBar>
   );

@@ -9,13 +9,6 @@ interface Props {
     alertMessage: string
     addProjectSuccessful: boolean
     addProjectFailure: boolean
-    title: string
-    description: string
-    technologies: string[]
-    imageUrl: string
-    demoUrl: string
-    githubUrl: string
-    featured: boolean
     titleStatus: FieldStatus
     descriptionStatus: FieldStatus
     technologiesStatus: FieldStatus
@@ -31,7 +24,10 @@ interface Props {
     handleGithubUrlFieldChange: () => void
     handleFeaturedFieldChange: () => void
     handleClickCreateProject: () => Promise<boolean>
+    handleClickEditProject: () => Promise<boolean>
+    handleClickDeleteProject: (arg0: number) => Promise<boolean>
     handleCloseDialog: () => void
+    setCurrentProject: Dispatch<SetStateAction<Project>>
     setTitle: Dispatch<SetStateAction<string>>
     setDescription: Dispatch<SetStateAction<string>>
     setTechnologies: Dispatch<SetStateAction<string[]>>
@@ -48,15 +44,8 @@ interface Props {
     featuredHasError: () => boolean
 }
 
-function AddProjectDialog({
+function ProjectDialog({
     project,
-    title,
-    description,
-    technologies,
-    imageUrl,
-    demoUrl,
-    githubUrl,
-    featured,
     titleStatus,
     descriptionStatus,
     technologiesStatus,
@@ -72,7 +61,10 @@ function AddProjectDialog({
     handleGithubUrlFieldChange,
     handleFeaturedFieldChange,
     handleClickCreateProject,
+    handleClickEditProject,
+    handleClickDeleteProject,
     handleCloseDialog,
+    setCurrentProject,
     setTitle,
     setDescription,
     setTechnologies,
@@ -92,17 +84,34 @@ function AddProjectDialog({
     const [inputValue, setInputValue] = useState<string>('')
     const [isFocused, setIsFocused] = useState(false)
 
+    const [curId, setCurId] = useState(project.id)
+    const [curTitle, setCurTitle] = useState(project.title)
+    const [curDescription, setCurDescription] = useState(project.description)
+    const [curTechnologies, setCurTechnologies] = useState<string[]>(project.technologies)
+    const [curImageUrl, setCurImageUrl] = useState(project.imageUrl)
+    const [curDemoUrl, setCurDemoUrl] = useState(project.demoUrl)
+    const [curGithubUrl, setCurGithubUrl] = useState(project.githubUrl)
+    const [curFeatured, setCurFeatured] = useState(project.featured)
+
     const handleAddChip = () => {
         const newTech = inputValue.trim();
-        if (newTech && !technologies.includes(newTech)) {
-            setTechnologies([...technologies, newTech]);
-            setInputValue('');
+        if (newTech && !curTechnologies.includes(newTech)) {
+            setTechnologies([...curTechnologies, newTech])
+            setCurTechnologies([...curTechnologies, newTech])
+            setInputValue('')
         }
     }
 
     const handleDeleteChip = (chipToDelete: string) => {
-        setTechnologies(project.technologies.filter(tech => tech !== chipToDelete));
+        setTechnologies(curTechnologies.filter(tech => tech !== chipToDelete))
+        setCurTechnologies(curTechnologies.filter(tech => tech !== chipToDelete));
     }
+
+    const handleEditClick = (project: Project) => {
+        setCurrentProject(project)
+        handleClickEditProject()
+    }
+    
     return (
         <>
             {/* <Snackbar open={addProjectSuccessful} 
@@ -129,18 +138,19 @@ function AddProjectDialog({
                 event.preventDefault()
                 await handleClickCreateProject()
             }}> 
-                <DialogTitle>Add a Project</DialogTitle>
+                <DialogTitle>Edit a Project</DialogTitle>
                 <DialogContent>
                 <TextField
                     label="Title"
                     required
                     name="title"
-                    value={title}
+                    value={curTitle}
                     error={titleHasError()}
                     helperText={titleHasError() && titleStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleTitleFieldChange()
                         setTitle(event.target.value)
+                        setCurTitle(event.target.value)
                     }}
                     fullWidth
                     margin="normal"
@@ -149,19 +159,20 @@ function AddProjectDialog({
                     label="Description"
                     required
                     name="description"
-                    value={description}
+                    value={curDescription}
                     error={descriptionHasError()}
                     helperText={descriptionHasError() && descriptionStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleDescriptionFieldChange()
                         setDescription(event.target.value)
+                        setCurDescription(event.target.value)
                     }}
                     fullWidth
                     margin="normal"
                 />
                 <TextField
                     label="Technologies (possibly multiple)"
-                    required={technologies.length === 0 && inputValue.trim() === ''}
+                    required={curTechnologies.length === 0 && inputValue.trim() === ''}
                     name="technologies"
                     value={inputValue}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +196,7 @@ function AddProjectDialog({
                             startAdornment: (
                                 <InputAdornment position="start">
                                     <Stack direction="row" spacing={1} mt={2}>
-                                        {technologies.map((tech, index) => (
+                                        {curTechnologies.map((tech, index) => (
                                             <Chip
                                                 key={index}
                                                 label={tech}
@@ -197,7 +208,7 @@ function AddProjectDialog({
                             )
                         },
                         inputLabel: {
-                            shrink: inputValue.length>0 || technologies.length>0 || isFocused, 
+                            shrink: inputValue.length>0 || project.technologies.length>0 || isFocused, 
                         }
                     }}
                 />
@@ -205,12 +216,13 @@ function AddProjectDialog({
                 <TextField
                     label="Image URL"
                     name="imageUrl"
-                    value={imageUrl || ''}
+                    value={curImageUrl || ''}
                     error={imageUrlHasError()}
                     helperText={imageUrlHasError() && imageUrlStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleImageUrlFieldChange()
                         setImageUrl(event.target.value)
+                        setCurImageUrl(event.target.value)
                     }}
                     fullWidth
                     margin="normal"
@@ -218,12 +230,13 @@ function AddProjectDialog({
                 <TextField
                     label="Demo URL"
                     name="demoUrl"
-                    value={demoUrl || ''}
+                    value={curDemoUrl || ''}
                     error={demoUrlHasError()}
                     helperText={demoUrlHasError() && demoUrlStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleDemoUrlFieldChange()
                         setDemoUrl(event.target.value)
+                        setCurDemoUrl(event.target.value)
                     }}
                     fullWidth
                     margin="normal"
@@ -231,12 +244,13 @@ function AddProjectDialog({
                 <TextField
                     label="GitHub URL"
                     name="githubUrl"
-                    value={githubUrl || ''}
+                    value={curGithubUrl || ''}
                     error={githubUrlHasError()}
                     helperText={githubUrlHasError() && githubUrlStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleGithubUrlFieldChange()
                         setGithubUrl(event.target.value)
+                        setCurGithubUrl(event.target.value)
                     }}
                     fullWidth
                     margin="normal"
@@ -245,12 +259,13 @@ function AddProjectDialog({
                     label="Featured"
                     required
                     select
-                    value={featured? 'Yes': 'No'}
+                    value={curFeatured? 'Yes': 'No'}
                     error={featuredHasError()}
                     helperText={featuredHasError() && featuredStatus.errorMessage}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         handleFeaturedFieldChange()
                         setFeatured(event.target.value === 'Yes')
+                        setCurFeatured(event.target.value === 'Yes')
                     }}
                     fullWidth
                 >
@@ -260,11 +275,13 @@ function AddProjectDialog({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} sx={{color: theme.palette.primary.dark}}>Cancel</Button>
-                    <Button type="submit" variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Create</Button>
+                    <Button onClick={() => handleClickDeleteProject(curId)} variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Delete</Button>
+                    <Button onClick={() => handleEditClick(project)} variant="contained" sx={{color: theme.palette.primary.dark, background: theme.palette.secondary.main}}>Edit</Button>
+                    
                 </DialogActions>
             </form>
         </>
     )
 }
 
-export default AddProjectDialog
+export default ProjectDialog

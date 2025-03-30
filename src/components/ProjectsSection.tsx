@@ -2,27 +2,27 @@
 import { usePathname } from 'next/navigation';
 import {JSX, useEffect, useState } from 'react'
 
-import { Box, Button, CircularProgress, Container, Grid2, IconButton, Typography, useTheme } from '@mui/material';
+import { Alert, Box, CircularProgress, Container, Grid2, IconButton, Snackbar, Typography, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add'
 
-import useAddProjectDialog from '@/hooks/useAddProjectDialog';
+import useProjectDialog from '@/hooks';
 import getProjects from '@/services/getProjects';
-import { Project } from '@/types';
+import { type Project } from '@/types';
 
-import AddProjectDialog from './AddProjectDialog';
 import DialogContainer from './DialogContainer';
 import ProjectCard from './ProjectCard';
+import AddProjectDialog from './AddProjectDialog';
 
 function ProjectsSection(): JSX.Element {
   const theme = useTheme()
-  const [filter, setFilter] = useState<'all' | 'featured'>('all')
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const {
         alertMessage,
         addProjectSuccessful,
         addProjectFailure,
-        open,
+        openAddDialog,
+        openEditDialog,
         title,
         description,
         technologies,
@@ -45,7 +45,10 @@ function ProjectsSection(): JSX.Element {
         handleGithubUrlFieldChange,
         handleFeaturedFieldChange,
         handleClickCreateProject,
-        handleOpenDialog,
+        handleClickEditProject,
+        handleClickDeleteProject,
+        handleOpenAddDialog,
+        handleOpenEditDialog,
         handleCancelCloseDialog,
         handleCloseDialog,
         setAddProjectSuccessful,
@@ -64,14 +67,14 @@ function ProjectsSection(): JSX.Element {
         demoUrlHasError,
         githubUrlHasError,
         featuredHasError,
-      } = useAddProjectDialog()
+      } = useProjectDialog()
+  const pathname = usePathname()
 
   useEffect(() => {
     const loadProjects = async () => {
       try {
         setLoading(true);
         const projectsData = await getProjects();
-        console.log(projectsData)
         setProjects(projectsData);
       } catch (error) {
         console.error('Failed to load projects:', error);
@@ -81,24 +84,41 @@ function ProjectsSection(): JSX.Element {
     };
 
     loadProjects();
-  }, [filter]);
+  }, []);
 
-  const pathname = usePathname()
-  console.log('what is the path?: ', pathname)
   
   return (
     <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '5rem 0' }}>
+      <Snackbar open={addProjectSuccessful} 
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          autoHideDuration={5000}
+          onClose={() => {
+              setAddProjectSuccessful(false)
+          }}
+          sx={{mt:'3.5rem'}}
+      >
+          <Alert severity="success">Successfully added a project.</Alert>
+      </Snackbar>
+      <Snackbar open={addProjectFailure} 
+          anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+          autoHideDuration={5000}
+          onClose={() => {
+              setAddProjectFailure(false)
+          }}
+          sx={{mt:'3.5rem'}}
+      >
+          <Alert severity="error">{alertMessage} Please try again.</Alert>
+      </Snackbar>
       <Container maxWidth="lg">
         <Typography variant="h4" align="center" gutterBottom>My Projects</Typography>
-        
-        <Box display="flex" justifyContent="center" mb={4}>
+        {/* <Box display="flex" justifyContent="center" mb={4}>
           <Box display="inline-flex" borderRadius="8px" boxShadow={2}>
             <Button
               onClick={() => setFilter('all')}
               variant={filter === 'all' ? 'contained' : 'outlined'}
               sx={{ borderRadius: '8px 0 0 8px', px: 4, py: 2, color: filter === 'all' ? 'primary' : 'default' }}
             >
-              All Projects
+              Programming Projects
             </Button>
             <Button
               onClick={() => setFilter('featured')}
@@ -108,7 +128,7 @@ function ProjectsSection(): JSX.Element {
               Featured
             </Button>
           </Box>
-        </Box>
+        </Box> */}
 
         <Box sx={{ textAlign: 'center', py: 10 }}>
           {loading ? (
@@ -127,16 +147,58 @@ function ProjectsSection(): JSX.Element {
             <Grid2 container spacing={4}>
               {projects.map((project) => (
                 <Grid2 size={{xs:12, md:6, lg:4}} key={project.id}>
-                  <ProjectCard key ={project.id} project={project} pathname={pathname}/>
+                  <ProjectCard key={project.id} project={project} pathname={pathname}
+                    alertMessage = {alertMessage}
+                    addProjectSuccessful = {addProjectSuccessful}
+                    addProjectFailure = {addProjectFailure}
+                    openEditDialog={openEditDialog}
+                    titleStatus = {titleStatus}
+                    descriptionStatus = {descriptionStatus}
+                    technologiesStatus = {technologiesStatus}
+                    imageUrlStatus = {imageUrlStatus}
+                    demoUrlStatus = {demoUrlStatus}
+                    githubUrlStatus = {githubUrlStatus}
+                    featuredStatus = {featuredStatus}
+                    handleTitleFieldChange = {handleTitleFieldChange}
+                    handleDescriptionFieldChange = {handleDescriptionFieldChange}
+                    handleTechnologiesFieldChange = {handleTechnologiesFieldChange}
+                    handleImageUrlFieldChange = {handleImageUrlFieldChange}
+                    handleDemoUrlFieldChange = {handleDemoUrlFieldChange}
+                    handleGithubUrlFieldChange = {handleGithubUrlFieldChange}
+                    handleFeaturedFieldChange = {handleFeaturedFieldChange}
+                    handleClickCreateProject = {handleClickCreateProject}
+                    handleClickEditProject={handleClickEditProject}
+                    handleClickDeleteProject={handleClickDeleteProject}
+                    handleOpenEditDialog = {handleOpenEditDialog}
+                    handleCloseDialog={handleCloseDialog}
+                    handleCancelCloseDialog = {handleCancelCloseDialog}
+                    setAddProjectSuccessful = {setAddProjectSuccessful}
+                    setAddProjectFailure = {setAddProjectFailure}
+                    setTitle = {setTitle}
+                    setDescription = {setDescription}
+                    setTechnologies = {setTechnologies}
+                    setImageUrl = {setImageUrl}
+                    setDemoUrl = {setDemoUrl}
+                    setGithubUrl= {setGithubUrl}
+                    setFeatured = {setFeatured}
+                    titleHasError = {titleHasError}
+                    descriptionHasError = {descriptionHasError}
+                    technologiesHasError ={technologiesHasError}
+                    imageUrlHasError= {imageUrlHasError}
+                    demoUrlHasError = {demoUrlHasError}
+                    githubUrlHasError ={githubUrlHasError}
+                    featuredHasError ={featuredHasError}
+                  />
                 </Grid2>
               ))}
             </Grid2>
           )}
         </Box>
       </Container>
-      <DialogContainer open={open} onClose={handleCancelCloseDialog}>
+      <DialogContainer open={openAddDialog} onClose={handleCancelCloseDialog}>
         <Box>
           <AddProjectDialog
+          project={{id:0, title:'', description:'', technologies:[], featured:false}}
           alertMessage = {alertMessage}
           addProjectSuccessful = {addProjectSuccessful}
           addProjectFailure = {addProjectFailure}
@@ -162,9 +224,9 @@ function ProjectsSection(): JSX.Element {
           handleGithubUrlFieldChange = {handleGithubUrlFieldChange}
           handleFeaturedFieldChange = {handleFeaturedFieldChange}
           handleClickCreateProject = {handleClickCreateProject}
-          handleCloseDialog = {handleCloseDialog}
-          setAddProjectSuccessful = {setAddProjectSuccessful}
-          setAddProjectFailure = {setAddProjectFailure}
+          handleCloseDialog={handleCloseDialog}
+          // setAddProjectSuccessful = {setAddProjectSuccessful}
+          // setAddProjectFailure = {setAddProjectFailure}
           setTitle = {setTitle}
           setDescription = {setDescription}
           setTechnologies = {setTechnologies}
@@ -188,7 +250,7 @@ function ProjectsSection(): JSX.Element {
               align: 'right', 
               '&:hover': { backgroundColor: 'gray.100' } 
             }}
-            onClick={handleOpenDialog}
+            onClick={handleOpenAddDialog}
           >
             <AddIcon/>
             <Typography>Add new project to display</Typography>

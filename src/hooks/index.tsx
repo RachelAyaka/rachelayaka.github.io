@@ -1,2 +1,2 @@
-import useAddProjectDialog from "./useAddProjectDialog";
- export default useAddProjectDialog
+import useProjectDialog from "./useProjectDialog";
+ export default useProjectDialog

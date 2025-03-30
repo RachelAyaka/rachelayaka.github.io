@@ -1,46 +1,105 @@
 'use client'
-import React, { ChangeEvent, JSX, useState } from 'react';
+import React, { ChangeEvent, Dispatch, JSX, SetStateAction, useState } from 'react';
 
-import { Project } from '../types';
-import { Box, Button, Card, CardContent, Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Card, CardContent, Chip, Dialog, IconButton, Link, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+
+import { FieldStatus } from '@/types/FieldStatus';
+import ProjectDialog from './ProjectDialog';
+import { Project } from '../types';
 
 interface ProjectCardProps {
   project: Project
   pathname: string
+  alertMessage: string
+  addProjectSuccessful: boolean
+  addProjectFailure: boolean
+  openEditDialog: boolean
+  titleStatus: FieldStatus
+  descriptionStatus: FieldStatus
+  technologiesStatus: FieldStatus
+  imageUrlStatus: FieldStatus
+  demoUrlStatus: FieldStatus
+  githubUrlStatus: FieldStatus
+  featuredStatus: FieldStatus
+  handleTitleFieldChange: () => void
+  handleDescriptionFieldChange: () => void
+  handleTechnologiesFieldChange: () => void
+  handleImageUrlFieldChange: () => void
+  handleDemoUrlFieldChange: () => void
+  handleGithubUrlFieldChange: () => void
+  handleFeaturedFieldChange: () => void
+  handleClickCreateProject: () => Promise<boolean>
+  handleClickEditProject: () => Promise<boolean>
+  handleClickDeleteProject: (arg0: number) => Promise<boolean>
+  handleCloseDialog: () => void
+  handleOpenEditDialog: () => void
+  handleCancelCloseDialog: (arg0: string) => void
+  setAddProjectSuccessful: Dispatch<SetStateAction<boolean>>
+  setAddProjectFailure:Dispatch<SetStateAction<boolean>>
+  setTitle: Dispatch<SetStateAction<string>>
+  setDescription: Dispatch<SetStateAction<string>>
+  setTechnologies: Dispatch<SetStateAction<string[]>>
+  setImageUrl: Dispatch<SetStateAction<string>>
+  setDemoUrl: Dispatch<SetStateAction<string>>
+  setGithubUrl: Dispatch<SetStateAction<string>>
+  setFeatured: Dispatch<SetStateAction<boolean>>
+  titleHasError: () => boolean
+  descriptionHasError: () => boolean
+  technologiesHasError: () => boolean
+  imageUrlHasError: () => boolean
+  demoUrlHasError: () => boolean
+  githubUrlHasError: () => boolean
+  featuredHasError: () => boolean
 }
 
-function ProjectCard({ project, pathname }: ProjectCardProps): JSX.Element {
-  const theme = useTheme()
-  const [openDialog, setOpenDialog] = useState(false)
-  const [editedProject, setEditedProject] = useState(project)
-
-  const handleEditClick = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditedProject((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleDeleteProject = () => {
-    console.log("Project Deleted")
-    handleCloseDialog()
-  }
-
-  const handleSaveChanges = () => {
-    console.log("Project updated:", editedProject);
-    handleCloseDialog()
-  };
-
+function ProjectCard({ project, pathname,
+    alertMessage,
+    addProjectSuccessful,
+    addProjectFailure,
+    openEditDialog,
+    titleStatus,
+    descriptionStatus,
+    technologiesStatus,
+    imageUrlStatus,
+    demoUrlStatus,
+    githubUrlStatus,
+    featuredStatus,
+    handleTitleFieldChange,
+    handleDescriptionFieldChange,
+    handleTechnologiesFieldChange,
+    handleImageUrlFieldChange,
+    handleDemoUrlFieldChange,
+    handleGithubUrlFieldChange,
+    handleFeaturedFieldChange,
+    handleClickCreateProject,
+    handleClickEditProject,
+    handleClickDeleteProject,
+    handleOpenEditDialog,
+    handleCloseDialog,
+    handleCancelCloseDialog,
+    setAddProjectSuccessful,
+    setAddProjectFailure,
+    setTitle,
+    setDescription,
+    setTechnologies,
+    setImageUrl,
+    setDemoUrl,
+    setGithubUrl,
+    setFeatured,
+    titleHasError,
+    descriptionHasError,
+    technologiesHasError,
+    imageUrlHasError,
+    demoUrlHasError,
+    githubUrlHasError,
+    featuredHasError,
+ }: ProjectCardProps): JSX.Element {
+    const [currentProject, setCurrentProject] = useState<Project>(project)
+    // const handleEditClick = (project: Project) => {
+    //   setCurrentProject(project); // Set the project to edit
+    //   setOpenDialog(true); // Open the dialog
+    // }
   return (
     <>
       <Card
@@ -72,7 +131,7 @@ function ProjectCard({ project, pathname }: ProjectCardProps): JSX.Element {
               zIndex: 10,
               '&:hover': { backgroundColor: 'gray.100' } 
             }}
-            onClick={handleEditClick}
+            onClick={handleOpenEditDialog}
             size="small"
           >
             <EditIcon sx={{ fontSize: 20 }}/>
@@ -112,82 +171,47 @@ function ProjectCard({ project, pathname }: ProjectCardProps): JSX.Element {
           </Box>
         </CardContent>
       </Card>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Edit Project</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Title"
-            name="title"
-            value={editedProject.title}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Description"
-            name="description"
-            value={editedProject.description}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Technologies (comma separated)"
-            name="technologies"
-            value={editedProject.technologies.join(', ')}
-            onChange={(e) => {
-              const newTechnologies = e.target.value.split(',').map((tech) => tech.trim());
-              setEditedProject((prevState) => ({
-                ...prevState,
-                technologies: newTechnologies,
-              }));
-            }}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Image URL"
-            name="imageUrl"
-            value={editedProject.imageUrl}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Demo URL"
-            name="demoUrl"
-            value={editedProject.demoUrl || ''}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="GitHub URL"
-            name="githubUrl"
-            value={editedProject.githubUrl || ''}
-            onChange={handleInputChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Featured"
-            name="featured"
-            value={editedProject.featured ? 'Yes' : 'No'}
-            onChange={(e) => {
-              setEditedProject((prevState) => ({
-                ...prevState,
-                featured: e.target.value === 'Yes',
-              }));
-            }}
-            fullWidth
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} sx={{color: theme.palette.primary.main}}>Cancel</Button>
-          <Button onClick={handleDeleteProject} sx={{color: theme.palette.error.light}}>Delete</Button>
-          <Button onClick={handleSaveChanges} sx={{color: theme.palette.primary.dark}}>Save</Button>
-        </DialogActions>
+      <Dialog open={openEditDialog} onClose={handleCancelCloseDialog}>
+      <ProjectDialog
+          project={currentProject}
+          alertMessage = {alertMessage}
+          addProjectSuccessful = {addProjectSuccessful}
+          addProjectFailure = {addProjectFailure}
+          titleStatus = {titleStatus}
+          descriptionStatus = {descriptionStatus}
+          technologiesStatus = {technologiesStatus}
+          imageUrlStatus = {imageUrlStatus}
+          demoUrlStatus = {demoUrlStatus}
+          githubUrlStatus = {githubUrlStatus}
+          featuredStatus = {featuredStatus}
+          handleTitleFieldChange = {handleTitleFieldChange}
+          handleDescriptionFieldChange = {handleDescriptionFieldChange}
+          handleTechnologiesFieldChange = {handleTechnologiesFieldChange}
+          handleImageUrlFieldChange = {handleImageUrlFieldChange}
+          handleDemoUrlFieldChange = {handleDemoUrlFieldChange}
+          handleGithubUrlFieldChange = {handleGithubUrlFieldChange}
+          handleFeaturedFieldChange = {handleFeaturedFieldChange}
+          handleClickCreateProject = {handleClickCreateProject}
+          handleClickEditProject = {handleClickEditProject}
+          handleClickDeleteProject={handleClickDeleteProject}
+          handleCloseDialog={handleCloseDialog}
+          // setAddProjectSuccessful = {setAddProjectSuccessful}
+          // setAddProjectFailure = {setAddProjectFailure}
+          setCurrentProject = {setCurrentProject}
+          setTitle = {setTitle}
+          setDescription = {setDescription}
+          setTechnologies = {setTechnologies}
+          setImageUrl = {setImageUrl}
+          setDemoUrl = {setDemoUrl}
+          setGithubUrl= {setGithubUrl}
+          setFeatured = {setFeatured}
+          titleHasError = {titleHasError}
+          descriptionHasError = {descriptionHasError}
+          technologiesHasError ={technologiesHasError}
+          imageUrlHasError= {imageUrlHasError}
+          demoUrlHasError = {demoUrlHasError}
+          githubUrlHasError ={githubUrlHasError}
+          featuredHasError ={featuredHasError}/>
       </Dialog>
     </>
   );

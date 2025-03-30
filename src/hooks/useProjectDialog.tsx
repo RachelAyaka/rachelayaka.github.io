@@ -2,14 +2,20 @@ import React, { Dispatch, SetStateAction, useState } from "react"
 
 import IDLE_FIELD_STATUS from "@/constants/IdleFieldStatus";
 import Status from "@/constants/Status";
+import deleteProject from "@/services/deleteProject";
+import patchProject from "@/services/patchProject";
 import postProject from "@/services/postProject";
 import { type FieldStatus } from "@/types/FieldStatus";
 
-interface AddProjectDialog {
+interface ProjectDialog {
     alertMessage: string
     addProjectSuccessful: boolean
     addProjectFailure: boolean
-    open: boolean
+    editProjectSuccessful: boolean
+    editProjectFailure: boolean
+    deleteProjectSuccessful: boolean
+    openAddDialog: boolean
+    openEditDialog: boolean
     title: string
     description: string
     technologies: string[]
@@ -32,13 +38,20 @@ interface AddProjectDialog {
     handleGithubUrlFieldChange: () => void
     handleFeaturedFieldChange: () => void
     handleClickCreateProject: () => Promise<boolean>
-    handleOpenDialog: () => void
+    handleClickEditProject: () => Promise<boolean>
+    handleClickDeleteProject: (arg0: number) => Promise<boolean>
+    handleOpenAddDialog: () => void
+    handleOpenEditDialog: () => void
     handleCancelCloseDialog: (arg0: string) => void
     handleCloseDialog: () => void
     setAlertMessage: Dispatch<SetStateAction<string>>
     setAddProjectSuccessful: Dispatch<SetStateAction<boolean>>
     setAddProjectFailure: Dispatch<SetStateAction<boolean>>
-    setOpen: Dispatch<SetStateAction<boolean>>
+    setEditProjectSuccessful: Dispatch<SetStateAction<boolean>>
+    setEditProjectFailure: Dispatch<SetStateAction<boolean>>
+    setDeleteProjectSuccessful: Dispatch<SetStateAction<boolean>>
+    setOpenAddDialog: Dispatch<SetStateAction<boolean>>
+    setOpenEditDialog: Dispatch<SetStateAction<boolean>>
     setTitle: Dispatch<SetStateAction<string>>
     setDescription: Dispatch<SetStateAction<string>>
     setTechnologies: Dispatch<SetStateAction<string[]>>
@@ -55,11 +68,15 @@ interface AddProjectDialog {
     featuredHasError: () => boolean
 }
 
-function useAddProjectDialog(): AddProjectDialog {
+function useProjectDialog(): ProjectDialog {
     const [alertMessage, setAlertMessage] = useState('')
     const [addProjectSuccessful, setAddProjectSuccessful] = useState(false)
     const [addProjectFailure, setAddProjectFailure] = useState(false)
-    const [open, setOpen] = useState(false)
+    const [editProjectSuccessful, setEditProjectSuccessful] = useState(false)
+    const [editProjectFailure, setEditProjectFailure] = useState(false)
+    const [deleteProjectSuccessful, setDeleteProjectSuccessful] = useState(false)
+    const [openAddDialog, setOpenAddDialog] = useState(false)
+    const [openEditDialog, setOpenEditDialog] = useState(false)
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -127,17 +144,22 @@ function useAddProjectDialog(): AddProjectDialog {
         resetFieldStatus(setFeaturedStatus)
     }
 
-    const handleOpenDialog = (): void => {
-        setOpen(true)
+    const handleOpenAddDialog = (): void => {
+        setOpenAddDialog(true)
+    }
+    const handleOpenEditDialog = (): void => {
+        setOpenEditDialog(true)
     }
 
     const handleCancelCloseDialog = (reason: string): void => {
         if (reason === 'backdropClick' || reason === 'escapeKeyDown') return
-        setOpen(false)
+        setOpenAddDialog(false)
+        setOpenEditDialog(false)
     }
 
     const handleCloseDialog = (): void => {
-        setOpen(false)
+        setOpenAddDialog(false)
+        setOpenEditDialog(false)
     }
 
     const isCreateProjectFormMissingField = (): boolean => {
@@ -179,7 +201,6 @@ function useAddProjectDialog(): AddProjectDialog {
         }
 
         const response = await postProject(newProject)
-        console.log(response)
     
         if (!response.ok) {
             const data = response.data 
@@ -189,7 +210,7 @@ function useAddProjectDialog(): AddProjectDialog {
                     error = 'The data array is empty.'
                 } else {
                     error = data[0]
-                    console.log('FIx: Data array has error.')
+                    console.log('Fix: Data array has error.')
                 }
             } else if (data.title) {
                 if (data.title.length < 1) {
@@ -235,8 +256,88 @@ function useAddProjectDialog(): AddProjectDialog {
             setAddProjectFailure(true)
             return false
         } 
-        setOpen(false)
+        setOpenAddDialog(false)
         setAddProjectSuccessful(true)
+        return true
+    }
+
+    const handleClickEditProject = async ():Promise<boolean> => {
+        if (isCreateProjectFormMissingField()) {
+            return false
+        }
+
+        const newProject = {
+            title: title,
+            description: description,
+            technologies: technologies,
+            featured: featured,
+        }
+
+        const response = await patchProject(newProject)
+    
+        if (!response.ok) {
+            const data = response.data 
+            let error = ''
+            if (Array.isArray(data)) {
+                if (data.length < 1) {
+                    error = 'The data array is empty.'
+                } else {
+                    error = data[0]
+                    console.log('Fix: Data array has error.')
+                }
+            } else if (data.title) {
+                if (data.title.length < 1) {
+                    error = 'The Title field is invalid'
+                } else {
+                    setTitleStatus({
+                        status: Status.ERROR,
+                        errorMessage: data.title[0],
+                    })
+                }
+            } else if (data.description) {
+                if (data.description.length < 1) {
+                    error = 'The Description field is invalid'
+                } else {
+                    setDescriptionStatus({
+                        status: Status.ERROR,
+                        errorMessage: data.description[0],
+                    })
+                }
+            } else if (data.technologies) {
+                if (data.technologies.length < 1) {
+                    error = 'The Technologies field is invalid'
+                } else {
+                    setTechnologiesStatus({
+                        status: Status.ERROR,
+                        errorMessage: data.technologies[0],
+                    })
+                }
+            } else if (data.featured) {
+                if (data.featured) {
+                    error = 'The Featured field is invalid'
+                } else {
+                    setFeaturedStatus({
+                        status: Status.ERROR,
+                        errorMessage: data.featured[0],
+                    })
+                }
+            } else {
+                error = 'Sign up is invalid'
+            }
+
+            setAlertMessage(error)
+            setEditProjectFailure(true)
+            return false
+        } 
+        setOpenEditDialog(false)
+        setEditProjectSuccessful(true)
+        return true
+    }
+
+    const handleClickDeleteProject= async (id: number):Promise<boolean> => {
+        if (await deleteProject(id)) {
+            setOpenEditDialog(false)
+        }
         return true
     }
 
@@ -244,7 +345,11 @@ function useAddProjectDialog(): AddProjectDialog {
         alertMessage,
         addProjectSuccessful,
         addProjectFailure,
-        open,
+        editProjectSuccessful,
+        editProjectFailure,
+        deleteProjectSuccessful,
+        openAddDialog,
+        openEditDialog,
         title,
         description,
         technologies,
@@ -267,13 +372,20 @@ function useAddProjectDialog(): AddProjectDialog {
         handleGithubUrlFieldChange,
         handleFeaturedFieldChange,
         handleClickCreateProject,
-        handleOpenDialog,
+        handleClickEditProject,
+        handleClickDeleteProject,
+        handleOpenAddDialog,
+        handleOpenEditDialog,
         handleCancelCloseDialog,
         handleCloseDialog,
         setAlertMessage,
         setAddProjectSuccessful,
         setAddProjectFailure,
-        setOpen,
+        setEditProjectSuccessful,
+        setEditProjectFailure,
+        setDeleteProjectSuccessful,
+        setOpenAddDialog,
+        setOpenEditDialog,
         setTitle,
         setDescription,
         setTechnologies,
@@ -291,4 +403,4 @@ function useAddProjectDialog(): AddProjectDialog {
     }
 }
 
-export default useAddProjectDialog
+export default useProjectDialog
