@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Box } from "@mui/material";
 
 import Hero from "@/components/Hero";
 
@@ -10,8 +9,6 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <Box>
-      <Hero />
-    </Box>
+    <Hero />
   );
 }

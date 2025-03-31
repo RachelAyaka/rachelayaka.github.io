@@ -1,22 +1,22 @@
 'use client'
+import {JSX} from 'react'
 import { usePathname } from 'next/navigation';
-import {JSX, useEffect, useState } from 'react'
 
-import { Alert, Box, CircularProgress, Container, Grid2, IconButton, Snackbar, Typography, useTheme } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add'
+import { Alert, Box, Container, Grid2, Snackbar, Typography} from '@mui/material';
+// import AddIcon from '@mui/icons-material/Add'
 
+import { projects } from '@/assets/data/projects';
 import useProjectDialog from '@/hooks';
-import getProjects from '@/services/getProjects';
-import { type Project } from '@/types';
+// import getProjects from '@/services/getProjects';
+// import { type Project } from '@/types';
 
 import DialogContainer from './DialogContainer';
 import ProjectCard from './ProjectCard';
 import AddProjectDialog from './AddProjectDialog';
 
 function ProjectsSection(): JSX.Element {
-  const theme = useTheme()
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [projects, setProjects] = useState<Project[]>();
+  // const [loading, setLoading] = useState<boolean>(true);
   const {
         alertMessage,
         addProjectSuccessful,
@@ -47,7 +47,7 @@ function ProjectsSection(): JSX.Element {
         handleClickCreateProject,
         handleClickEditProject,
         handleClickDeleteProject,
-        handleOpenAddDialog,
+        // handleOpenAddDialog,
         handleOpenEditDialog,
         handleCancelCloseDialog,
         handleCloseDialog,
@@ -70,25 +70,28 @@ function ProjectsSection(): JSX.Element {
       } = useProjectDialog()
   const pathname = usePathname()
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        setLoading(true);
-        const projectsData = await getProjects();
-        setProjects(projectsData);
-      } catch (error) {
-        console.error('Failed to load projects:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const loadProjects = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const projectsData = await getProjects();
+  //       setProjects(projectsData);
+  //     } catch (error) {
+  //       console.error('Failed to load projects:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    loadProjects();
-  }, []);
-
+  //   loadProjects();
+  // }, []);
   
   return (
-    <section id="projects" className="project-section" style={{ backgroundColor: theme.palette.secondary.main, padding: '5rem 0' }}>
+    <section id="projects" className="project-section" 
+        style={{ backgroundColor: '#F8F1E1', padding: '10rem 0', position: 'relative',
+          minHeight: '100vh'
+        }}
+    >
       <Snackbar open={addProjectSuccessful} 
           anchorOrigin={{vertical: 'top', horizontal: 'center'}}
           autoHideDuration={5000}
@@ -131,12 +134,12 @@ function ProjectsSection(): JSX.Element {
         </Box> */}
 
         <Box sx={{ textAlign: 'center', py: 10 }}>
-          {loading ? (
+          {/* {loading ? (
             <Box>
               <CircularProgress size={48} sx={{ color: 'primary.main' }} />
               <Typography variant="h6" sx={{ mt: 2 }}>Loading projects...</Typography>
-            </Box>
-          ) : projects.length === 0 ? (
+            </Box> ) :*/}
+          {projects.length === 0 ? (
             <Box>
               <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>No projects yet</Typography>
               <Typography variant="body2" color="text.secondary">
@@ -243,8 +246,10 @@ function ProjectsSection(): JSX.Element {
           featuredHasError ={featuredHasError}/>
         </Box>
       </DialogContainer>
-      {pathname==='/Projects' ?
-        <Box sx={{ textAlign: 'right', py: 10 }}>
+      {/* {pathname==='/Projects' ?
+        <Box sx={{ position: 'absolute', bottom: 0,
+          right: 0, textAlign: 'right', py: 2,
+          pr: 2,}}>
           <IconButton
             sx={{
               align: 'right', 
@@ -256,9 +261,9 @@ function ProjectsSection(): JSX.Element {
             <Typography>Add new project to display</Typography>
           </IconButton>
         </Box>
-      : null}
+      : null} */}
     </section>
   );
 };
 
-export default ProjectsSection;
+export default ProjectsSection

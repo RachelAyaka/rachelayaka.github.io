@@ -5,26 +5,21 @@ import {
   Button, 
   Container,
   Avatar,
-  IconButton,
   Paper,
   Grid2,
 } from '@mui/material'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-
-import Header from '@/components/Header';
+import DisplayPictures from '@/components/DisplayPictures';
 
 export default function Home() {
   return (
     <>
-      <Header/>
       <Box sx={{ 
         bgcolor: 'background.default', 
-        minHeight: '100vh', 
         py: 8
       }}>
         <Container maxWidth="md">
           <Grid2 container spacing={4} alignItems="center">
-            <Grid2 size={{xs:12, md:4}} sx={{ textAlign: { xs: 'center', md: 'left' }, mt:6 }}>
+            <Grid2 size={{xs:12, md:4}} sx={{ textAlign: { xs: 'center', md: 'left' }, mt:10 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' } }}>
                 <Avatar 
                   sx={{ 
@@ -35,7 +30,7 @@ export default function Home() {
                     mb: 2
                   }}
                   alt="Rachel Lin"
-                  src="/IMG_2835.png"
+                  src="/images/Portrait.png"
                 />
                 <Typography 
                   variant="h4" 
@@ -51,33 +46,23 @@ export default function Home() {
                 <Typography 
                   variant="subtitle1" 
                   sx={{ 
+                    mt: 3, 
+                    fontFamily: "'Georgia', serif",
+                    color: 'text.secondary'
+                  }}
+                >
+                  Software Engineer 
+                </Typography>
+                <Typography 
+                  variant="subtitle1" 
+                  sx={{ 
                     mb: 3, 
                     fontFamily: "'Georgia', serif",
                     color: 'text.secondary'
                   }}
                 >
-                  Software Engineer
+                  Active Secret Clearance
                 </Typography>
-                
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
-                  sx={{ 
-                    mb: 2, 
-                    maxWidth: 250, 
-                    borderColor: 'primary.main',
-                    color: 'text.primary',
-                    '&:hover': {
-                      borderColor: 'primary.dark',
-                      backgroundColor: 'secondary.main',
-                    }
-                  }}
-                >
-                  Email me
-                </Button>
-                <IconButton aria-label="LinkedIn" sx={{ color: 'primary.dark' }}>
-                  <LinkedInIcon />
-                </IconButton>
               </Box>
             </Grid2>
             
@@ -108,9 +93,11 @@ export default function Home() {
                     lineHeight: 1.7
                   }}
                 >
-                  I am a creative and collaborative digital marketing manager with over 15 years of experience. 
-                  I am an expert in driving growth and raising brand awareness through customer-centric campaign strategies. 
-                  I specialize in cross-channel marketing, digital communication, and social media management.
+                  I am a full stack developer at Naval Information Warefare Center, deeply passionate about continuously 
+                  advancing skills. I enjoy the combination of creativity, problem-solving, and technology in my work.
+                  When I am not at my computer, I enjoy staying active by playing tennis, surfig, and exploring my creative side through
+                  cooking, baking, traveling, and crotching.
+
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: { xs: 'center', md: 'flex-start' } }}>
                   <Button 
@@ -123,6 +110,7 @@ export default function Home() {
                         backgroundColor: 'secondary.main',
                       }
                     }}
+                    href={'/Resume'}
                   >
                     Resume
                   </Button>
@@ -132,6 +120,7 @@ export default function Home() {
           </Grid2>
         </Container>
       </Box>
+      <DisplayPictures/>
     </>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 import { JSX, useRef } from 'react';
-import { Box, Button, Container, Grid2, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, Grid2, Typography } from '@mui/material';
 import ProjectsSection from './ProjectsSection';
 
 function Hero(): JSX.Element {
@@ -12,31 +12,53 @@ function Hero(): JSX.Element {
   }
   return (
     <>
-    <Container maxWidth="lg" sx={{
+    <Box sx={{minHeight: '10vh',}}></Box>
+    <Container maxWidth={false} disableGutters sx={{
       display: 'flex',             
       justifyContent: 'center',     // Center horizontally
       alignItems: 'center',         // Center vertically 
       paddingBottom: '8rem',
-      paddingTop: '8rem'
+      paddingTop: '8rem',
+      minHeight: '100vh',
+      backgroundImage: 'url(/images/water.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      position: 'relative',
+      padding: 0,
+      margin: 0,
+      width: '100%',
     }}>
-      <Grid2 container spacing={9} alignItems="center">
+      <Grid2 container spacing={15} alignItems="center">
         <Grid2 size={{sm: 12, md: 6, lg: 'grow'}}>
-          <Typography variant="h4" gutterBottom>
-            Full Stack Software Engineer
+          <Typography variant="h3" sx={{color: 'white'}}>
+            Full-Stack
           </Typography>
-          <Typography variant="body1" >
-            Experienced in web develop and design
+          <Typography variant="h3" sx={{color: 'white', whiteSpace: 'nowrap'}} gutterBottom>
+            Software Engineer
           </Typography>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            style={{ marginTop: '1rem' }}
-            onClick={() => {
-              scrollToSection();
-            }}
-          >
-            Checkout My Projects
-          </Button>
+          <Typography variant="h6" sx={{color: 'white'}}>
+            Active Secret Clearance
+          </Typography>
+          <Box display="flex" justifyContent="space-between">
+            <Button 
+              variant="contained" 
+              color="primary" 
+              style={{  marginTop: '1rem' }}
+              href='/AboutMe'
+            >
+              About Me
+            </Button>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              style={{ marginTop: '1rem'}}
+              onClick={() => {
+                scrollToSection();
+              }}
+            >
+              View My Work
+            </Button>
+          </Box>
         </Grid2>
       
         <Grid2 size={{sm: 12, md:6}}  sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -51,18 +73,11 @@ function Hero(): JSX.Element {
               boxShadow: 3
             }}
           >
-            {/* <Image 
-              src="/images/profile.jpg"
-              alt="Your Name"
-              layout="fill"
-              objectFit="cover"
-              priority
-            /> */}
-            {/* <Avatar
+            <Avatar
               alt="Rachel Ayaka Lin"
-              src="../../images/next.svg" 
+              src="/images/portrait.png" 
               sx={{ width: '100%', height: '100%' }}
-            /> */}
+            />
           </Box>
         </Grid2>
       </Grid2>
