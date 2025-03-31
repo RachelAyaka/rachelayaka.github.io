@@ -1,8 +1,8 @@
 'use client'
 import { JSX, useRef } from 'react';
-import { Avatar, Box, Button, Container, Grid2, Typography } from '@mui/material';
-import ProjectsSection from './ProjectsSection';
 import Image from 'next/image';
+import { Box, Button, Container, Grid2, Typography } from '@mui/material';
+import ProjectsSection from './ProjectsSection';
 
 function Hero(): JSX.Element {
   const projectsSection = useRef<HTMLElement | null>(null)
