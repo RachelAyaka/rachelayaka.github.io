@@ -30,7 +30,7 @@ export default function Home() {
                     mb: 2
                   }}
                   alt="Rachel Lin"
-                  src="/images/Portrait.png"
+                  src="/images/me.png"
                 />
                 <Typography 
                   variant="h4" 

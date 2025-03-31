@@ -1,6 +1,7 @@
 'use client'
 import { JSX, useRef } from 'react';
-import { Avatar, Box, Button, Container, Grid2, Typography } from '@mui/material';
+import Image from 'next/image';
+import { Box, Button, Container, Grid2, Typography } from '@mui/material';
 import ProjectsSection from './ProjectsSection';
 
 function Hero(): JSX.Element {
@@ -68,15 +69,15 @@ function Hero(): JSX.Element {
               width: 300, 
               height: 300, 
               borderRadius: '50%', 
-              // overflow: 'hidden', 
               border: '4px solid white', 
               boxShadow: 3
             }}
           >
-            <Avatar
+            <Image
               alt="Rachel Ayaka Lin"
-              src="/images/portrait.png" 
-              sx={{ width: '100%', height: '100%' }}
+              src="/images/me.png" 
+              fill
+              style={{objectFit: 'cover', borderRadius: '50%' }}
             />
           </Box>
         </Grid2>

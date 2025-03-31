@@ -52,12 +52,12 @@ const ImageIconBox = styled('div')(({ theme }) => ({
       width: '40%',
     },
     {
-      url: '/images/surf.jpg',
+      url: '/images/surf.png',
       title: 'Surf',
       width: '20%',
     },
     {
-      url: '/images/flowerPlate.jpg',
+      url: '/images/flowerPlate.png',
       title: 'Cook / Eat',
       width: '40%',
     },
@@ -87,7 +87,7 @@ const ImageIconBox = styled('div')(({ theme }) => ({
       width: '20%',
     },
     {
-      url: '/images/crotchet.jpg',
+      url: '/images/crotchet.png',
       title: 'Crotchet',
       width: '40%',
     },
