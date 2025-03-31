@@ -1,8 +1,8 @@
 'use client'
 import React, { Dispatch, JSX, SetStateAction, useState } from 'react';
 
-import { Box, Card, CardContent, Chip, Dialog, IconButton, Link, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, Card, CardContent, Chip, Dialog, Link, Typography } from '@mui/material';
+// import EditIcon from '@mui/icons-material/Edit';
 
 import { FieldStatus } from '@/types/FieldStatus';
 import ProjectDialog from './ProjectDialog';
@@ -53,7 +53,7 @@ interface ProjectCardProps {
   featuredHasError: () => boolean
 }
 
-function ProjectCard({ project, pathname,
+function ProjectCard({ project,
     alertMessage,
     addProjectSuccessful,
     addProjectFailure,
@@ -75,7 +75,7 @@ function ProjectCard({ project, pathname,
     handleClickCreateProject,
     handleClickEditProject,
     handleClickDeleteProject,
-    handleOpenEditDialog,
+    // handleOpenEditDialog,
     handleCloseDialog,
     handleCancelCloseDialog,
     setTitle,
@@ -120,7 +120,7 @@ function ProjectCard({ project, pathname,
           alt={project.title} 
           className="w-full h-48 object-cover"
         /> */}
-        {pathname === '/Projects' ? 
+        {/* {pathname === '/Projects' ? 
           <IconButton sx={{
               position: 'absolute', 
               top: 8, 
@@ -134,7 +134,7 @@ function ProjectCard({ project, pathname,
           >
             <EditIcon sx={{ fontSize: 20 }}/>
           </IconButton>
-        : null}
+        : null} */}
         <CardContent>
           <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold', mb: 2 }}>{project.title}</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>{project.description}</Typography>

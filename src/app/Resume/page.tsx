@@ -7,12 +7,12 @@ const ResumePage = () => {
     <>
         <Header/>
         <Container>
-        <Box sx={{ textAlign: 'center', my: 4, mt: 12 }}>
+        <Box sx={{ textAlign: 'center', mt: 12 }}>
             <Typography variant="h4" component="h1" gutterBottom>
                 Resume
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <embed src="/Resume.pdf" type="application/pdf" width="100%" height="650px" />
+                <embed src="/Resume.pdf" type="application/pdf" width="100%" height="900px" />
             </Box>
         </Box>
       </Container>

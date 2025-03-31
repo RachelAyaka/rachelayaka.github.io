@@ -8,7 +8,7 @@ export default function Projects() {
         <Typography variant="h3">--</Typography>
       </Box>
       <ProjectsSection/>
-      <Box
+      {/* <Box
         sx={{
           position: 'fixed',
           bottom: 16,
@@ -25,9 +25,9 @@ export default function Projects() {
         }}
       >
         <Typography variant="body2">
-          * Able to edit projects to show for demo purposes
+          * Able to add/edit projects to show for demo purposes
         </Typography>
-      </Box>
+      </Box> */}
     </>
   );
 }
