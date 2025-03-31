@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { createTheme } from '@mui/material/styles';
 
 const PortfolioTheme = createTheme({
@@ -10,7 +10,7 @@ const PortfolioTheme = createTheme({
 
   palette: {
     primary: {
-      main: '#F3D0D7', 
+      main: '#F3D0D7',
       dark: '#D49C9F',
     },
     secondary: {
@@ -32,7 +32,7 @@ const PortfolioTheme = createTheme({
     error: {
       main: '#C42E2E',
       light: '#FAEBEB',
-    }
+    },
   },
 });
 

@@ -1,8 +1,8 @@
 const HTTPMethods = {
-    DELETE: 'DELETE',
-    GET: 'GET',
-    PATCH: 'PATCH',
-    POST: 'POST',
-} as const
+  DELETE: 'DELETE',
+  GET: 'GET',
+  PATCH: 'PATCH',
+  POST: 'POST',
+} as const;
 
-export default HTTPMethods
+export default HTTPMethods;

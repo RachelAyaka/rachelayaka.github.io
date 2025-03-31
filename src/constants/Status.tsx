@@ -1,6 +1,6 @@
 enum Status {
-    IDLE = 'idle',
-    ERROR = 'error',
+  IDLE = 'idle',
+  ERROR = 'error',
 }
 
-export default Status
+export default Status;

@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material"
-import ProjectsSection from "@/components/ProjectsSection"
+import { Box, Typography } from '@mui/material';
+import ProjectsSection from '@/components/ProjectsSection';
 
 export default function Projects() {
   return (
@@ -7,7 +7,7 @@ export default function Projects() {
       <Box>
         <Typography variant="h3">--</Typography>
       </Box>
-      <ProjectsSection/>
+      <ProjectsSection />
       {/* <Box
         sx={{
           position: 'fixed',
