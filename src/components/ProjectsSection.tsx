@@ -229,6 +229,7 @@ function ProjectsSection(): JSX.Element {
               id: 0,
               title: '',
               description: '',
+              imageUrl: '',
               technologies: [],
               featured: false,
             }}

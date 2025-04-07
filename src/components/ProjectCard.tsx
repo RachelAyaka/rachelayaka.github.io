@@ -7,17 +7,17 @@ import {
   CardContent,
   Chip,
   Dialog,
-  IconButton,
   Link,
   Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 
 import { FieldStatus } from '@/types/FieldStatus';
 import ProjectDialog from './ProjectDialog';
 import { Project } from '../types';
+import Image from 'next/image';
 
 interface ProjectCardProps {
   project: Project;
@@ -131,15 +131,16 @@ function ProjectCard({
       >
         {/* Optional: Image Section */}
         <Box sx={{ width: '100%', height: 200, position: 'relative' }}>
-          <img
-            src={project.imageUrl}
-            alt={project.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
+        <Image
+          src={project.imageUrl}
+          alt={project.title}
+          layout="responsive"  // Adjusts the aspect ratio automatically
+          width={700}           // Width of the image (adjust as needed)
+          height={475}          // Height of the image (adjust as needed)
+          style={{
+            objectFit: 'cover', // Ensures the image covers the container
+          }}
+        />
           {project.imageUrl == '/images/takuto.png'? 
            <Box
             sx={{
@@ -154,7 +155,7 @@ function ProjectCard({
               maxWidth: '80%',
             }}
           >
-            Signed a NDA so here's a picture of my grandma's dog
+            Signed a NDA so here&apos;s a picture of my grandma&apos;s dog
           </Box>
           : null }
         </Box>
