@@ -7,10 +7,13 @@ import {
   CardContent,
   Chip,
   Dialog,
+  IconButton,
   Link,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
-// import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { FieldStatus } from '@/types/FieldStatus';
 import ProjectDialog from './ProjectDialog';
@@ -103,6 +106,8 @@ function ProjectCard({
   featuredHasError,
 }: ProjectCardProps): JSX.Element {
   const [currentProject, setCurrentProject] = useState<Project>(project);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   // const handleEditClick = (project: Project) => {
   //   setCurrentProject(project); // Set the project to edit
   //   setOpenDialog(true); // Open the dialog
@@ -117,33 +122,55 @@ function ProjectCard({
           overflow: 'hidden',
           transition: 'transform 0.3s',
           '&:hover': {
-            transform: 'scale(1.05)',
+            transform: isMobile ? 'none' : 'scale(1.05)',
           },
           position: 'relative',
-          padding: 2,
+          padding: isMobile ? 1 : 2,
+          width: '100%',
         }}
       >
         {/* Optional: Image Section */}
-        {/* <img 
-          src={project.imageUrl} 
-          alt={project.title} 
-          className="w-full h-48 object-cover"
-        /> */}
-        {/* {pathname === '/Projects' ? 
-          <IconButton sx={{
-              position: 'absolute', 
-              top: 8, 
-              right: 8, 
-              backgroundColor: 'white', 
-              zIndex: 10,
-              '&:hover': { backgroundColor: 'gray.100' } 
+        <Box sx={{ width: '100%', height: 200, position: 'relative' }}>
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
             }}
-            onClick={handleOpenEditDialog}
-            size="small"
+          />
+          {project.imageUrl == '/images/takuto.png'? 
+           <Box
+            sx={{
+              position: 'absolute',
+              bottom: 10,
+              right: 10,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              color: 'white',
+              padding: '4px 8px',
+              fontSize: '10px',
+              borderRadius: '5px',
+              maxWidth: '80%',
+            }}
           >
-            <EditIcon sx={{ fontSize: 20 }}/>
-          </IconButton>
-        : null} */}
+            Signed a NDA so here's a picture of my grandma's dog
+          </Box>
+          : null }
+        </Box>
+        {/* <IconButton sx={{
+            position: 'absolute', 
+            top: 8, 
+            right: 8, 
+            backgroundColor: 'white', 
+            zIndex: 10,
+            '&:hover': { backgroundColor: 'gray.100' } 
+          }}
+          onClick={()=> {}}
+          size="small"
+        >
+          <EditIcon sx={{ fontSize: 20 }}/>
+        </IconButton> */}
         <CardContent>
           <Typography
             variant="h6"
