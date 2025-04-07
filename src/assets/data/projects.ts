@@ -4,9 +4,17 @@ export const projects: Project[] = [
   {
     id: 1,
     title: 'LiDAR Database Web Appplication',
-    description: 'Deceloped a full-stack application to save thousands of hours streamlining the upload, search, and sharing process.',
-    technologies: ['AWS-S3', 'Next.js', 'Django', 'Django Rest Framework', 'Material UI'],
-    imageUrl: '',
+    description:
+      'Full-stack web application to search, request, and share LiDAR documents.',
+    technologies: [
+      'AWS',
+      'Next.js',
+      'Django',
+      'Django Rest Framework',
+      'Material UI',
+      'TypeScript',
+    ],
+    imageUrl: '/images/takuto.png',
     demoUrl: '',
     githubUrl: '',
     featured: false,
@@ -14,19 +22,23 @@ export const projects: Project[] = [
   {
     id: 2,
     title: 'Salon Appointment Website',
-    description: 'A website where customers book appointments and the owner to manage appointments and clients.',
-    technologies: ['MySQL', 'JavaScript', 'React', 'Spring JDBC', 'Java', 'Spring MVC', 'Spring Boot'],
+    description:
+      'A website for a salon where customers can create accounts, book appointments, and manage their bookings. The salon owner can manage appointments, view customer details, and oversee the schedule.',
+    technologies: [
+      'MongoDB', 'Express.js', 'React.js', 'Vite', 'Node.js', 'Vercel', 'JavaScript', 'JsonWebToken',
+    ],
     imageUrl: '/images/aptWeb.png',
-    demoUrl: '',
+    demoUrl: 'https://salon-frontend-lilac.vercel.app',
     githubUrl: '',
     featured: false,
   },
   {
     id: 3,
     title: 'Computer Vision Gym Count',
-    description: "This programs a camera to detect over 543 landmark points on face and body. Using these point coordiates, user's workout repetition is counted and displayed in real-time.",
+    description:
+      "A application to detect over 543 landmark points on face and body. Using these point coordiates, user's workout repetition is counted and displayed in real-time on the caemra screen.",
     technologies: ['OpenCV', 'MediaPipe', 'Python', 'Numpy'],
-    imageUrl: '',
+    imageUrl: '/images/faceDetection.png',
     demoUrl: '',
     githubUrl: '',
     featured: false,
