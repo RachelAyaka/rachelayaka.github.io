@@ -99,7 +99,7 @@ function ProjectsSection(): JSX.Element {
       className="project-section"
       style={{
         backgroundColor: '#F8F1E1',
-        padding: '10rem 0',
+        padding: '5rem 0',
         position: 'relative',
         minHeight: '100vh',
       }}
@@ -127,7 +127,7 @@ function ProjectsSection(): JSX.Element {
         <Alert severity="error">{alertMessage} Please try again.</Alert>
       </Snackbar>
       <Container maxWidth="lg">
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h3" align="center">
           My Projects
         </Typography>
         {/* <Box display="flex" justifyContent="center" mb={4}>
