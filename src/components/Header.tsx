@@ -1,65 +1,129 @@
 'use client';
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import { Typography, useTheme } from '@mui/material';
 
-export default function Header() {
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Box,
+  IconButton,
+  Typography,
+  Button,
+  useTheme,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import NavDrawer from './NavDrawer';
+
+const pages = [
+  {
+    title: 'Home',
+    path: '/',
+  },
+  {
+    title: 'About',
+    path: '/AboutMe',
+  },
+  {
+    title: 'Resume',
+    path: '/Resume',
+  },
+  {
+    title: 'Projects',
+    path: '/Projects',
+  },
+];
+
+const Header = () => {
   const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
-    <AppBar
-      position="fixed"
-      sx={{ backgroundColor: theme.palette.background.default }}
-      elevation={0}
-    >
-      <Toolbar
-        sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}
+    <>
+      {/* Main AppBar */}
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: theme.palette.primary.dark,
+          boxShadow: 'none',
+        }}
       >
-        <Typography variant="h3" style={{ flexGrow: 1, padding: '10px' }}>
-          Rachel Ayaka Lin
-        </Typography>
-        <Button
-          color="inherit"
-          href={'/'}
-          sx={{
-            fontSize: '18px',
-            '&:hover': { backgroundColor: theme.palette.primary.main },
-          }}
-        >
-          Home
-        </Button>
-        <Button
-          color="inherit"
-          href={'/AboutMe'}
-          sx={{
-            fontSize: '18px',
-            '&:hover': { backgroundColor: theme.palette.primary.main },
-          }}
-        >
-          About
-        </Button>
-        <Button
-          color="inherit"
-          href={'/Resume'}
-          sx={{
-            fontSize: '18px',
-            '&:hover': { backgroundColor: theme.palette.primary.main },
-          }}
-        >
-          Resume
-        </Button>
-        <Button
-          color="inherit"
-          href={'/Projects'}
-          sx={{
-            fontSize: '18px',
-            '&:hover': { backgroundColor: theme.palette.primary.main },
-          }}
-        >
-          Projects
-        </Button>
-      </Toolbar>
-    </AppBar>
+        <Container maxWidth="xl">
+          <Toolbar sx={{ justifyContent: 'space-between' }}>
+            {/* Logo */}
+            <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  // position: 'left',
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{
+                    fontSize: '2rem',
+                    mr: 2,
+                  }}
+                >
+                  Rachel Ayaka Lin
+                </Typography>
+                {/* <Image
+                  src="/fanohgeWhite.png"
+                  alt="Camp Fanohge White Logo"
+                  // layout="fill"
+                  style={{ objectFit: 'contain' }}
+                  width={60}
+                  height={60}
+                  priority
+                /> */}
+              </Box>
+            </Link>
+
+            <Box
+              sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}
+            >
+              {pages.map((page) => (
+                <Button
+                  key={page.title}
+                  component={Link}
+                  href={page.path}
+                  sx={{
+                    marginRight: 2,
+                    color: 'white',
+                  }}
+                >
+                  {page.title}
+                </Button>
+              ))}
+            </Box>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ display: { md: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <NavDrawer
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}
+        pages={pages}
+        pathname={pathname}
+      />
+    </>
   );
-}
+};
+
+export default Header;

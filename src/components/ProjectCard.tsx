@@ -11,6 +11,7 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Skeleton,
 } from '@mui/material';
 // import EditIcon from '@mui/icons-material/Edit';
 
@@ -106,12 +107,19 @@ function ProjectCard({
   featuredHasError,
 }: ProjectCardProps): JSX.Element {
   const [currentProject, setCurrentProject] = useState<Project>(project);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  // const handleEditClick = (project: Project) => {
-  //   setCurrentProject(project); // Set the project to edit
-  //   setOpenDialog(true); // Open the dialog
-  // }
+
+  // Responsive dimensions based on screen size
+  const CARD_HEIGHT = isMobile ? 'auto' : 480; // Auto height on mobile, fixed on desktop
+  const IMAGE_HEIGHT = 200; // Fixed image height
+  const CONTENT_HEIGHT = isMobile
+    ? 'auto'
+    : CARD_HEIGHT === 'auto'
+      ? 'auto'
+      : CARD_HEIGHT - IMAGE_HEIGHT;
+
   return (
     <>
       <Card
@@ -119,107 +127,197 @@ function ProjectCard({
           backgroundColor: 'white',
           borderRadius: 2,
           boxShadow: 3,
-          overflow: 'hidden',
-          transition: 'transform 0.3s',
-          '&:hover': {
-            transform: isMobile ? 'none' : 'scale(1.05)',
-          },
-          position: 'relative',
-          padding: isMobile ? 1 : 2,
+          display: 'flex',
+          flexDirection: 'column',
+          height: CARD_HEIGHT,
           width: '100%',
+          transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+          '&:hover': {
+            transform: isMobile ? 'none' : 'translateY(-8px)',
+            boxShadow: isMobile ? theme.shadows[3] : theme.shadows[8],
+          },
+          position: 'relative', // For potential loading states
         }}
       >
-        {/* Optional: Image Section */}
-        <Box sx={{ width: '100%', height: 200, position: 'relative' }}>
-        <Image
-          src={project.imageUrl}
-          alt={project.title}
-          layout="responsive"  // Adjusts the aspect ratio automatically
-          width={700}           // Width of the image (adjust as needed)
-          height={475}          // Height of the image (adjust as needed)
-          style={{
-            objectFit: 'cover', // Ensures the image covers the container
-          }}
-        />
-          {project.imageUrl == '/images/takuto.png'? 
-           <Box
-            sx={{
-              position: 'absolute',
-              bottom: 10,
-              right: 10,
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              color: 'white',
-              padding: '4px 8px',
-              fontSize: '10px',
-              borderRadius: '5px',
-              maxWidth: '80%',
+        {/* Image Section with fixed dimensions */}
+        <Box sx={{ width: '100%', height: IMAGE_HEIGHT, position: 'relative' }}>
+          {!imageLoaded && (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              animation="wave"
+              sx={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}
+            />
+          )}
+          <Image
+            src={project.imageUrl}
+            alt={project.title}
+            fill
+            style={{
+              objectFit: 'cover',
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 0.3s',
+              display: 'block',
             }}
-          >
-            Signed a NDA so here&apos;s a picture of my grandma&apos;s dog
-          </Box>
-          : null }
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            onError={(e) => {
+              e.currentTarget.src = '/images/alphaFiber.png'; // fallback
+              setImageLoaded(true);
+            }}
+          />
+          {project.imageUrl == '/images/takuto.png' ? (
+            <Box
+              sx={{
+                position: 'absolute',
+                bottom: 10,
+                right: 10,
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                color: 'white',
+                padding: '4px 8px',
+                fontSize: '10px',
+                borderRadius: '5px',
+                maxWidth: '80%',
+              }}
+            >
+              Signed a NDA so here&apos;s a picture of my grandma&apos;s dog
+            </Box>
+          ) : null}
         </Box>
-        {/* <IconButton sx={{
-            position: 'absolute', 
-            top: 8, 
-            right: 8, 
-            backgroundColor: 'white', 
-            zIndex: 10,
-            '&:hover': { backgroundColor: 'gray.100' } 
+
+        {/* Content Section with fixed height */}
+        <CardContent
+          sx={{
+            height: CONTENT_HEIGHT,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            p: isMobile ? 2 : 3, // Smaller padding on mobile
+            '&:last-child': { paddingBottom: isMobile ? 2 : 3 }, // Override MUI's default padding
           }}
-          onClick={()=> {}}
-          size="small"
         >
-          <EditIcon sx={{ fontSize: 20 }}/>
-        </IconButton> */}
-        <CardContent>
+          {/* Title with fixed height */}
           <Typography
-            variant="h6"
+            variant={isMobile ? 'subtitle1' : 'h6'}
             component="h3"
-            sx={{ fontWeight: 'bold', mb: 2 }}
+            sx={{
+              fontWeight: 'bold',
+              mb: 1,
+              whiteSpace: 'normal', // allow wrapping
+              wordBreak: 'break-word', // handle long words
+            }}
           >
             {project.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+
+          {/* Description with fixed height */}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              mb: 2,
+              whiteSpace: 'pre-wrap', // Allows line breaks and preserves spacing
+              wordBreak: 'break-word', // Break long words if needed
+            }}
+          >
             {project.description}
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+
+          {/* Technologies section with fixed height and scroll */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 1,
+              mb: 2,
+              height: isMobile ? 'auto' : '60px',
+              maxHeight: '80px',
+              overflowY: 'auto',
+              scrollbarWidth: 'thin',
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#f1f1f1',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#888',
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                background: '#555',
+              },
+            }}
+          >
             {project.technologies.map((tech) => (
               <Chip
                 key={tech}
                 label={tech}
                 size="small"
-                sx={{ backgroundColor: 'gray.200', color: 'text.primary' }}
+                sx={{
+                  backgroundColor: 'gray.200',
+                  color: 'text.primary',
+                  margin: '2px',
+                  fontSize: isMobile ? '0.625rem' : '0.75rem',
+                }}
               />
             ))}
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            {project.demoUrl && (
-              <Link
-                href={project.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  color: 'primary.dark',
-                  '&:hover': { textDecoration: 'underline' },
-                }}
-              >
-                Live Demo
-              </Link>
-            )}
-            {project.githubUrl && (
-              <Link
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  color: 'text.secondary',
-                  '&:hover': { textDecoration: 'underline' },
-                }}
-              >
-                GitHub
-              </Link>
-            )}
+
+          {/* Links section - at the bottom */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mt: 'auto',
+              pt: isMobile ? 1 : 2,
+            }}
+          >
+            {
+              project.demoUrl ? (
+                <Link
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: 'primary.dark',
+                    '&:hover': { textDecoration: 'underline' },
+                    fontSize: isMobile ? '0.8rem' : '0.875rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                  }}
+                  aria-label={`View live demo of ${project.title}`}
+                >
+                  Live Demo
+                </Link>
+              ) : (
+                <Box />
+              ) /* Empty box for spacing when no demo link */
+            }
+            {
+              project.githubUrl ? (
+                <Link
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: 'text.secondary',
+                    '&:hover': { textDecoration: 'underline' },
+                    fontSize: isMobile ? '0.8rem' : '0.875rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                  }}
+                  aria-label={`View GitHub repository for ${project.title}`}
+                >
+                  GitHub
+                </Link>
+              ) : (
+                <Box />
+              ) /* Empty box for spacing when no GitHub link */
+            }
           </Box>
         </CardContent>
       </Card>
