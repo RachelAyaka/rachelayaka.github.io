@@ -107,9 +107,8 @@ export default function Home() {
                   I am a full stack developer at Naval Information Warefare
                   Center. I enjoy the combination of creativity,
                   problem-solving, and technology in my work. When I am not at
-                  my computer, I enjoy staying active by playing tennis,
-                  surfing, and exploring my creative side through cooking,
-                  baking, traveling, and crotcheting.
+                  my computer, I enjoy playing tennis, surfing, cooking, baking,
+                  traveling, and crotcheting.
                 </Typography>
                 <Box
                   sx={{

@@ -16,7 +16,7 @@ export const projects: Project[] = [
       'Vercel',
     ],
     imageUrl: '/images/fanohge.png',
-    demoUrl: 'https://camp-fanohge.vercel.app',
+    demoUrl: 'https://campfanohge.com',
     githubUrl: '',
     featured: false,
   },
